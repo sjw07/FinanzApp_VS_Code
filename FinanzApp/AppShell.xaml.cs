@@ -1,9 +1,14 @@
-﻿namespace FinanzApp;
+namespace FinanzApp;
 
 public partial class AppShell : Shell
 {
-	public AppShell()
-	{
-		InitializeComponent();
-	}
+    public AppShell()
+    {
+        InitializeComponent();
+
+        Routing.RegisterRoute(nameof(LoginView), typeof(LoginView));
+        Routing.RegisterRoute(nameof(HomeView), typeof(HomeView));
+        Routing.RegisterRoute(nameof(MonthView), typeof(MonthView));
+        Routing.RegisterRoute(nameof(YearView), typeof(YearView));
+    }
 }

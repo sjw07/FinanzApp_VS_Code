@@ -7,8 +7,7 @@
     Title="FinanzApp">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+        Title="Start"
+        ContentTemplate="{DataTemplate local:StartView}"
+        Route="StartView" />
 </Shell>
