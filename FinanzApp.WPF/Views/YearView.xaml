@@ -1,0 +1,8 @@
+<Window x:Class="FinanzApp.WPF.Views.YearView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Jahr" Height="400" Width="600" Background="DarkGray">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <DataGrid x:Name="YearGrid" Margin="10"/>
+    </ScrollViewer>
+</Window>

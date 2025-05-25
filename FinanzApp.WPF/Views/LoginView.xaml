@@ -1,0 +1,16 @@
+<Window x:Class="FinanzApp.WPF.Views.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login" Height="300" Width="400" Background="DarkGray">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBox x:Name="UsernameBox" Width="200" Margin="0,0,0,10" PlaceholderText="Benutzername" />
+            <PasswordBox x:Name="PasswordBox" Width="200" Margin="0,0,0,10" />
+            <Button Content="Anmelden" Width="150" Click="Login_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
