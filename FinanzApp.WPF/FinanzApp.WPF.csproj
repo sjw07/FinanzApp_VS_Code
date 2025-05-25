@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="..\FinanzApp\Images\backgroundImage.png">
+      <Link>Images\backgroundImage.png</Link>
+    </Resource>
+  </ItemGroup>
+</Project>
