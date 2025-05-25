@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FinanzApp.StartView"
-             BackgroundImageSource="backgroundImage.png">
+             BackgroundImageSource="backgroundimage.png">
     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
         <Button Text="Anmelden" BackgroundColor="Green" TextColor="White" Clicked="OnLoginClicked"/>
         <Button Text="Beenden" BackgroundColor="Red" TextColor="White" Clicked="OnExitClicked"/>
