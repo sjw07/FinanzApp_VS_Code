@@ -373,5 +373,35 @@ INSERT INTO Entries (Datum, Betrag, Name) VALUES
 ('2025-12-29', -85.0, 'Supermarkt'),
 ('2025-12-30', -500.0, 'Sparen');
 
+-- Zusätzliche Tabellen für weitere Benutzer erstellen und mit den gleichen
+-- Beispieldaten befüllen
+
+CREATE TABLE Entries2 (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Datum DATE NOT NULL,
+    Betrag INTEGER NOT NULL,
+    Name TEXT NOT NULL
+);
+
+INSERT INTO Entries2 SELECT * FROM Entries;
+
+CREATE TABLE Entries3 (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Datum DATE NOT NULL,
+    Betrag INTEGER NOT NULL,
+    Name TEXT NOT NULL
+);
+
+INSERT INTO Entries3 SELECT * FROM Entries;
+
+CREATE TABLE Entries4 (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Datum DATE NOT NULL,
+    Betrag INTEGER NOT NULL,
+    Name TEXT NOT NULL
+);
+
+INSERT INTO Entries4 SELECT * FROM Entries;
+
 COMMIT;
 
