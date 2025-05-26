@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+
     <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
@@ -33,6 +35,17 @@
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.*" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Data\**\*.cs" Link="Data\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\Models\**\*.cs" Link="Models\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\Services\**\*.cs" Link="Services\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\ViewModels\**\*.cs" Link="ViewModels\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\Converters\**\*.cs" Link="Converters\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="App.xaml" />
+    <Page Include="MainWindow.xaml" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.*" />
   </ItemGroup>
 </Project>

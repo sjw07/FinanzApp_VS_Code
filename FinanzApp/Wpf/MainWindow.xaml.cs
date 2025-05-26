@@ -5,6 +5,9 @@ namespace FinanzApp.Wpf;
 
 public partial class MainWindow : Window
 {
+    public MainWindow()
+    {
+        InitializeComponent();
     private readonly MonthViewModel _vm;
 
     public MainWindow(MonthViewModel vm)

@@ -1,4 +1,5 @@
 using System;
+using System.Windows;
 using System.IO;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,9 @@ public static class Program
     [STAThread]
     public static void Main(string[] args)
     {
+        var app = new App();
+        app.InitializeComponent();
+        app.Run();
         var host = Host.CreateDefaultBuilder(args)
             .ConfigureServices(services =>
             {

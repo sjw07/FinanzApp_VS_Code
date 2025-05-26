@@ -4,6 +4,14 @@
         xmlns:converters="clr-namespace:FinanzApp.Converters"
         Title="FinanzApp" Height="450" Width="400">
     <Window.Resources>
+        <converters:AmountToColorConverter x:Key="AmountToColorConverter" />
+    </Window.Resources>
+    <Grid>
+        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" IsReadOnly="True" Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Date, StringFormat=dd.MM}" Header="Datum" Width="80"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Amount, StringFormat=F2}" Header="Betrag (€)" Width="90">
         <converters:AmountToBrushConverter x:Key="AmountToBrushConverter" />
     </Window.Resources>
     <Grid>
