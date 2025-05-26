@@ -68,7 +68,7 @@
         </ItemGroup>
 
         <ItemGroup>
-                <None Include="Data/StefanFinanceMai2025.sql" />
+                <None Include="Data/FinanzApp.db" CopyToOutputDirectory="PreserveNewest" />
         </ItemGroup>
 
 </Project>
