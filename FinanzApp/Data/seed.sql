@@ -1,8 +1,13 @@
 -- Schema for StefanFinanceMai2025
+
+PRAGMA foreign_keys = ON;      -- Referenzielle Integrität aktivieren
+
+BEGIN TRANSACTION;
+
 CREATE TABLE Entries (
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
-    Datum TEXT NOT NULL,
-    Betrag REAL NOT NULL,
+    Datum DATE NOT NULL,
+    Betrag INTEGER NOT NULL,
     Name TEXT NOT NULL
 );
 
@@ -37,3 +42,5 @@ INSERT INTO Entries (Datum, Betrag, Name) VALUES
 ('2025-05-28', -20.0, 'Abo: Software'),
 ('2025-05-29', -85.0, 'Supermarkt'),
 ('2025-05-30', -500.0, 'Sparen');
+
+COMMIT;
