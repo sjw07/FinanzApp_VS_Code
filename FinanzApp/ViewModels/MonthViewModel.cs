@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using FinanzApp.Data;
 using FinanzApp.Models;
 using Microsoft.EntityFrameworkCore;
+using FinanzApp.Services;
 
 namespace FinanzApp.ViewModels;
 

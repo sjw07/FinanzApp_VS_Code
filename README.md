@@ -8,7 +8,13 @@ dotnet restore
 ```
 
 ## Starten
+
+```bash
+dotnet build
+dotnet run --project FinanzApp/FinanzApp.Wpf.csproj
+=======
 ```
 dotnet build
  dotnet run --project FinanzApp
+
 ```
