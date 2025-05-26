@@ -5,6 +5,7 @@ using FinanzApp.Models;
 using Microsoft.EntityFrameworkCore;
 using FinanzApp.Services;
 
+
 namespace FinanzApp.ViewModels;
 
 public partial class MonthViewModel : ObservableObject
