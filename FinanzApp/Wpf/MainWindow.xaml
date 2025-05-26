@@ -1,0 +1,27 @@
+<Window x:Class="FinanzApp.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:FinanzApp.Converters"
+        Title="FinanzApp" Height="450" Width="400">
+    <Window.Resources>
+        <converters:AmountToBrushConverter x:Key="AmountToBrushConverter" />
+    </Window.Resources>
+    <Grid>
+        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" Margin="10" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Datum" Binding="{Binding Date, StringFormat=dd.MM}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Betrag (€)">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Amount" StringFormat="F2 €" />
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{Binding Amount, Converter={StaticResource AmountToBrushConverter}}" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

@@ -7,7 +7,11 @@
     Title="FinanzApp">
 
     <ShellContent
-        Title="Start"
-        ContentTemplate="{DataTemplate local:StartView}"
-        Route="StartView" />
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+    <ShellContent
+        Title="Mai 2025"
+        ContentTemplate="{DataTemplate local:MonthView}"
+        Route="MonthView" />
 </Shell>

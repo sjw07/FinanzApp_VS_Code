@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Data\FinanzAppContext.cs" Link="Data\FinanzAppContext.cs" />
+    <Compile Include="..\Data\DbInitializer.cs" Link="Data\DbInitializer.cs" />
+    <Compile Include="..\Data\Models\User.cs" Link="Data\Models\User.cs" />
+    <Compile Include="..\Data\Models\Transaction.cs" Link="Data\Models\Transaction.cs" />
+    <Compile Include="..\Models\TransactionDto.cs" Link="Models\TransactionDto.cs" />
+    <Compile Include="..\Services\CurrentUserService.cs" Link="Services\CurrentUserService.cs" />
+    <Compile Include="..\ViewModels\MonthViewModel.cs" Link="ViewModels\MonthViewModel.cs" />
+    <Compile Include="Converters\AmountToBrushConverter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="App.xaml.cs" />
+    <Compile Include="MainWindow.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml" />
+    <Page Include="MainWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.*">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.*" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.*" />
+  </ItemGroup>
+</Project>
