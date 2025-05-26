@@ -18,6 +18,26 @@
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="Foreground" Value="{Binding Amount, Converter={StaticResource AmountToBrushConverter}}" />
+        xmlns:viewModels="clr-namespace:FinanzApp.ViewModels"
+        xmlns:conv="clr-namespace:FinanzApp.Converters"
+        Title="Mai 2025" Height="450" Width="400">
+    <Window.Resources>
+        <conv:AmountToColorConverter x:Key="AmountToColorConverter" />
+    </Window.Resources>
+    <Grid>
+        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Width="350">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Date, StringFormat=dd.MM}" Header="Datum" Width="120"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
+                <DataGridTextColumn Header="Betrag (€)" Width="90">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Amount" StringFormat="{}{0:F2} €" />
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{Binding Amount, Converter={StaticResource AmountToColorConverter}}"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>

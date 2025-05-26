@@ -18,5 +18,18 @@ public partial class MainWindow : Window
     {
         base.OnContentRendered(e);
         await _vm.OnAppearingAsync();
+    private readonly MonthViewModel _viewModel;
+
+    public MainWindow(MonthViewModel viewModel)
+    {
+        InitializeComponent();
+        _viewModel = viewModel;
+        DataContext = _viewModel;
+    }
+
+    protected override async void OnContentRendered(System.EventArgs e)
+    {
+        base.OnContentRendered(e);
+        await _viewModel.OnAppearingAsync();
     }
 }
