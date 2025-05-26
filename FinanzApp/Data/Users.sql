@@ -1,0 +1,16 @@
+BEGIN TRANSACTION;
+
+CREATE TABLE IF NOT EXISTS Users (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Username TEXT NOT NULL UNIQUE,
+    PasswordHash TEXT NOT NULL,
+    EntriesTable TEXT NOT NULL
+);
+
+INSERT INTO Users (Username, PasswordHash, EntriesTable) VALUES
+    ('Stefan', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Entries'),
+    ('Stefan2', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Entries2'),
+    ('Stefan3', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Entries3'),
+    ('Stefan4', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'Entries4');
+
+COMMIT;
