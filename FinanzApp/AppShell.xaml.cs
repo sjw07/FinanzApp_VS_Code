@@ -6,9 +6,7 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
 
-        Routing.RegisterRoute(nameof(LoginView), typeof(LoginView));
-        Routing.RegisterRoute(nameof(HomeView), typeof(HomeView));
+        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
         Routing.RegisterRoute(nameof(MonthView), typeof(MonthView));
-        Routing.RegisterRoute(nameof(YearView), typeof(YearView));
     }
 }
