@@ -5,6 +5,7 @@ using System.Windows;
 using FinanzApp.Data;
 using FinanzApp.Services;
 using FinanzApp.ViewModels;
+using System.Windows;
 
 namespace FinanzApp.Wpf;
 
