@@ -15,7 +15,7 @@ namespace FinanzApp.Data
 
     public class FinanceService
     {
-        const string DbFileName = "StefanFinanceMai2025.db";
+        const string DbFileName = "FinanzApp.db";
         readonly string _dbPath = Path.Combine(AppContext.BaseDirectory, "Data", DbFileName);
 
         public FinanceService()
