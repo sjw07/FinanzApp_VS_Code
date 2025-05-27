@@ -20,7 +20,7 @@ public partial class LoginView : ContentPage
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
-        double fieldWidth = width / 3;
+        double fieldWidth = width / 2;
         usernameEntry.WidthRequest = fieldWidth;
         passwordEntry.WidthRequest = fieldWidth;
     }
@@ -41,5 +41,10 @@ public partial class LoginView : ContentPage
         {
             await DisplayAlert("Fehler", "Ung\u00fcltige Anmeldedaten", "OK");
         }
+    }
+
+    private async void OnRegisterClicked(object? sender, EventArgs e)
+    {
+        await DisplayAlert("Info", "Registrierung", "OK");
     }
 }
