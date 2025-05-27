@@ -15,6 +15,9 @@ public partial class NewEntryPage : ContentPage
     void OnCancelClicked(object? sender, EventArgs e)
     {
         Application.Current?.CloseWindow(this.Window);
+        if (this.Window is not null)
+            Application.Current?.CloseWindow(this.Window);
+        this.Window?.Close();
     }
 
     async void OnCreateClicked(object? sender, EventArgs e)
@@ -46,5 +49,8 @@ public partial class NewEntryPage : ContentPage
         }
 
         Application.Current?.CloseWindow(this.Window);
+        if (this.Window is not null)
+            Application.Current?.CloseWindow(this.Window);
+        this.Window?.Close();
     }
 }
