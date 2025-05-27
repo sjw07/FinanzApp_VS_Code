@@ -22,6 +22,7 @@ public partial class EditEntryPage : ContentPage
     {
         if (this.Window is not null)
             Application.Current?.CloseWindow(this.Window);
+        this.Window?.Close();
     }
 
     async void OnSaveClicked(object? sender, EventArgs e)
@@ -56,5 +57,6 @@ public partial class EditEntryPage : ContentPage
 
         if (this.Window is not null)
             Application.Current?.CloseWindow(this.Window);
+        this.Window?.Close();
     }
 }
