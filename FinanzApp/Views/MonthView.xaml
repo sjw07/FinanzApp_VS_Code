@@ -18,7 +18,7 @@
         <Grid ColumnDefinitions="3*,1*" ColumnSpacing="10" VerticalOptions="Fill">
             <Border Grid.Column="0" Margin="40,0,0,0" Stroke="Black" StrokeThickness="2" BackgroundColor="#0DD3D3D3">
                 <ScrollView Orientation="Vertical" VerticalOptions="Fill">
-                    <CollectionView x:Name="EntriesView" VerticalOptions="Fill" SelectionMode="Single">
+                    <CollectionView x:Name="EntriesView" VerticalOptions="Fill" SelectionMode="Single" SelectionChanged="OnSelectionChanged">
                         <CollectionView.Header>
                             <Grid Padding="3" ColumnDefinitions="*,*,*" BackgroundColor="LightGray">
                                 <Label Text="Datum" FontSize="14" FontAttributes="Bold" TextColor="Black">
@@ -41,11 +41,22 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid x:Name="ItemGrid" Padding="3" ColumnDefinitions="*,*,*">
+                                    <Grid.Triggers>
+                                        <DataTrigger TargetType="Grid" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="LightBlue" />
+                                        </DataTrigger>
+                                    </Grid.Triggers>
                                     <Label x:Name="DateLabel"
                                            Text="{Binding Datum, StringFormat='{0:dd.MM.yyyy}'}"
                                            FontSize="12"
                                            FontAttributes="Bold"
-                                           TextColor="Black" />
+                                           TextColor="Black">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="DarkOrange" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                     <Label x:Name="AmountLabel"
                                            Text="{Binding Betrag}"
                                            Grid.Column="1"
@@ -57,25 +68,13 @@
                                            Grid.Column="2"
                                            FontSize="12"
                                            FontAttributes="Bold"
-                                           TextColor="Black" />
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup x:Name="CommonStates">
-                                            <VisualState x:Name="Normal">
-                                                <VisualState.Setters>
-                                                    <Setter TargetName="DateLabel" Property="TextColor" Value="Black" />
-                                                    <Setter TargetName="AmountLabel" Property="TextColor" Value="Black" />
-                                                    <Setter TargetName="NameLabel" Property="TextColor" Value="Black" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                            <VisualState x:Name="Selected">
-                                                <VisualState.Setters>
-                                                    <Setter TargetName="ItemGrid" Property="BackgroundColor" Value="LightBlue" />
-                                                    <Setter TargetName="DateLabel" Property="TextColor" Value="DarkOrange" />
-                                                    <Setter TargetName="NameLabel" Property="TextColor" Value="DarkOrange" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
+                                           TextColor="Black">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="DarkOrange" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
