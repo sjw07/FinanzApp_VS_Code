@@ -22,15 +22,25 @@ namespace FinanzApp.Data
         {
         }
 
-        public async Task<List<FinanceEntry>> GetEntriesAsync()
+        public async Task<List<FinanceEntry>> GetEntriesAsync(string? user)
         {
             var result = new List<FinanceEntry>();
             if (!File.Exists(_dbPath))
                 return result;
+
+            var table = user switch
+            {
+                "Stefan" => "Entries",
+                "Stefan2" => "Entries2",
+                "Stefan3" => "Entries3",
+                "Stefan4" => "Entries4",
+                _ => "Entries"
+            };
+
             using var connection = new SqliteConnection($"Data Source={_dbPath}");
             await connection.OpenAsync();
             var cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT Datum, Betrag, Name FROM Entries ORDER BY Datum";
+            cmd.CommandText = $"SELECT Datum, Betrag, Name FROM {table} ORDER BY Datum";
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {

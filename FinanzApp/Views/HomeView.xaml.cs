@@ -5,6 +5,15 @@ public partial class HomeView : ContentPage
     public HomeView()
     {
         InitializeComponent();
+        SizeChanged += OnPageSizeChanged;
+    }
+
+    private void OnPageSizeChanged(object? sender, EventArgs e)
+    {
+        double buttonWidth = Width / 4;
+        MonthButton.WidthRequest = buttonWidth;
+        YearButton.WidthRequest = buttonWidth;
+        LogoutButton.WidthRequest = buttonWidth;
     }
 
     private async void OnMonthClicked(object? sender, EventArgs e)
@@ -19,6 +28,7 @@ public partial class HomeView : ContentPage
 
     private async void OnLogoutClicked(object? sender, EventArgs e)
     {
+        App.LoggedInUser = null;
         await Shell.Current.GoToAsync("//StartView");
     }
 }
