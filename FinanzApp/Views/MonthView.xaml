@@ -105,6 +105,22 @@
                 <Button Text="Abmelden" Clicked="OnLogoutClicked"
                         BackgroundColor="Red" TextColor="White" FontAttributes="Bold"
                         WidthRequest="200" />
+                        WidthRequest="200" Margin="0,75,0,0" />
+                <Button Text="Abmelden" Clicked="OnLogoutClicked"
+                        BackgroundColor="Red" TextColor="White" FontAttributes="Bold"
+                        WidthRequest="200" />
+                <Button Text="Home" Margin="0,75,0,0"
+                        TextColor="White" FontAttributes="Bold"
+                        WidthRequest="200"
+                        Clicked="OnHomeClicked" />
+                <Button Text="Abmelden"
+                        BackgroundColor="Red" TextColor="White" FontAttributes="Bold"
+                        WidthRequest="200"
+                        Clicked="OnLogoutClicked" />
+                <Button Text="Home" Clicked="OnHomeClicked" TextColor="White" FontAttributes="Bold"
+                        Margin="0,75,0,0" WidthRequest="200" />
+                <Button Text="Abmelden" Clicked="OnLogoutClicked" BackgroundColor="Red"
+                        TextColor="White" FontAttributes="Bold" WidthRequest="200" />
             </VerticalStackLayout>
         </Grid>
         </VerticalStackLayout>
