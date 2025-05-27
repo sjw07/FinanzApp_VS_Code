@@ -17,6 +17,7 @@
                     BackgroundColor="DarkBlue"
                     TextColor="White"
                     FontAttributes="Bold"
+                    WidthRequest="200"
                     Clicked="OnRegisterClicked"/>
         </VerticalStackLayout>
     </Grid>

@@ -13,6 +13,8 @@ namespace FinanzApp.Data
         public decimal Betrag { get; set; }
         public string Name { get; set; } = string.Empty;
 
+        public bool IsNegative => Betrag < 0;
+
         bool _isSelected;
         public bool IsSelected
         {
