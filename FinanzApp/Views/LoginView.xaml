@@ -4,7 +4,7 @@
              x:Class="FinanzApp.LoginView"
              BackgroundImageSource="backgroundimage.png"
              Opacity="0.5">
-    <VerticalStackLayout Padding="20" Spacing="10">
+    <VerticalStackLayout Padding="20" Spacing="10" HorizontalOptions="Center">
         <Entry x:Name="usernameEntry" Placeholder="Benutzername"/>
         <Entry x:Name="passwordEntry" Placeholder="Passwort" IsPassword="True"/>
         <Button Text="Anmelden" Clicked="OnLoginClicked"/>

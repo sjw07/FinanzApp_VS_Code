@@ -17,6 +17,14 @@ public partial class LoginView : ContentPage
         InitializeComponent();
     }
 
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+        double fieldWidth = width / 3;
+        usernameEntry.WidthRequest = fieldWidth;
+        passwordEntry.WidthRequest = fieldWidth;
+    }
+
     private async void OnLoginClicked(object? sender, EventArgs e)
     {
         var username = usernameEntry.Text?.Trim();
