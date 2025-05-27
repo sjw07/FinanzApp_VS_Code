@@ -38,6 +38,9 @@ namespace FinanzApp.Data
         const string DbFileName = "FinanzApp.db";
         readonly string _dbPath = Path.Combine(AppContext.BaseDirectory, "Data", DbFileName);
 
+        public static event EventHandler? EntriesChanged;
+        static void RaiseEntriesChanged() => EntriesChanged?.Invoke(null, EventArgs.Empty);
+
         public FinanceService()
         {
         }
@@ -108,6 +111,7 @@ namespace FinanzApp.Data
             insert.Parameters.AddWithValue("@n", name);
             insert.Parameters.AddWithValue("@uid", id);
             await insert.ExecuteNonQueryAsync();
+            RaiseEntriesChanged();
             return true;
         }
 
@@ -149,6 +153,8 @@ namespace FinanzApp.Data
             update.Parameters.AddWithValue("@on", oldName);
 
             var affected = await update.ExecuteNonQueryAsync();
+            if (affected > 0)
+                RaiseEntriesChanged();
             return affected > 0;
         }
 
