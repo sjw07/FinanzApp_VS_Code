@@ -1,9 +1,16 @@
+using System.Collections.Generic;
+
 namespace FinanzApp;
 
 public partial class LoginView : ContentPage
 {
-    const string ValidUser = "Stefan";
-    const string ValidPass = "1234";
+    readonly Dictionary<string, string> _users = new()
+    {
+        ["Stefan"] = "1234",
+        ["Stefan2"] = "1234",
+        ["Stefan3"] = "1234",
+        ["Stefan4"] = "1234"
+    };
 
     public LoginView()
     {
@@ -12,8 +19,14 @@ public partial class LoginView : ContentPage
 
     private async void OnLoginClicked(object? sender, EventArgs e)
     {
-        if (usernameEntry.Text == ValidUser && passwordEntry.Text == ValidPass)
+        var username = usernameEntry.Text?.Trim();
+        var password = passwordEntry.Text;
+
+        if (!string.IsNullOrEmpty(username) &&
+            _users.TryGetValue(username, out var validPass) &&
+            password == validPass)
         {
+            App.LoggedInUser = username;
             await Shell.Current.GoToAsync(nameof(HomeView));
         }
         else

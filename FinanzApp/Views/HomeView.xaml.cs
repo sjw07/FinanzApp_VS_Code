@@ -19,6 +19,7 @@ public partial class HomeView : ContentPage
 
     private async void OnLogoutClicked(object? sender, EventArgs e)
     {
+        App.LoggedInUser = null;
         await Shell.Current.GoToAsync("//StartView");
     }
 }
