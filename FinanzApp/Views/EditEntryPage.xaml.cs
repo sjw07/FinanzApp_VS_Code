@@ -3,13 +3,19 @@ using System;
 
 namespace FinanzApp;
 
-public partial class NewEntryPage : ContentPage
+public partial class EditEntryPage : ContentPage
 {
     readonly FinanceService _service = new();
+    readonly FinanceEntry _original;
 
-    public NewEntryPage()
+    public EditEntryPage(FinanceEntry entry)
     {
         InitializeComponent();
+        _original = entry;
+        DateEntry.Text = entry.Datum.ToString("dd.MM.yyyy");
+        AmountEntry.Text = entry.Betrag.ToString();
+        NameEntry.Text = entry.Name;
+        InfoLabel.Text = $"Aktueller Eintrag: {entry.Datum:dd.MM.yyyy} {entry.Betrag} {entry.Name}";
     }
 
     void OnCancelClicked(object? sender, EventArgs e)
@@ -17,7 +23,7 @@ public partial class NewEntryPage : ContentPage
         Application.Current?.CloseWindow(this.Window);
     }
 
-    async void OnCreateClicked(object? sender, EventArgs e)
+    async void OnSaveClicked(object? sender, EventArgs e)
     {
         if (!DateTime.TryParse(DateEntry.Text, out var datum))
         {
@@ -38,10 +44,12 @@ public partial class NewEntryPage : ContentPage
             return;
         }
 
-        bool success = await _service.AddEntryAsync(App.LoggedInUser, datum, betrag, name);
+        bool success = await _service.UpdateEntryAsync(App.LoggedInUser,
+                                                       _original.Datum, _original.Betrag, _original.Name,
+                                                       datum, betrag, name);
         if (!success)
         {
-            await DisplayAlert("Fehler", "Eintrag existiert bereits", "OK");
+            await DisplayAlert("Fehler", "Update fehlgeschlagen oder Eintrag existiert bereits", "OK");
             return;
         }
 
