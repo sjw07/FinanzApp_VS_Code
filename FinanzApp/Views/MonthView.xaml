@@ -98,6 +98,14 @@
                 <Button Text="Eintrag &#228;ndern" Clicked="OnEditEntryClicked"
                         BackgroundColor="Orange" TextColor="White" FontAttributes="Bold"
                         WidthRequest="200" />
+                <Button Text="Home" Margin="0,75,0,0"
+                        TextColor="White" FontAttributes="Bold"
+                        WidthRequest="200"
+                        Clicked="OnHomeClicked" />
+                <Button Text="Abmelden"
+                        BackgroundColor="Red" TextColor="White" FontAttributes="Bold"
+                        WidthRequest="200"
+                        Clicked="OnLogoutClicked" />
                 <Button Text="Home" Clicked="OnHomeClicked" TextColor="White" FontAttributes="Bold"
                         Margin="0,75,0,0" WidthRequest="200" />
                 <Button Text="Abmelden" Clicked="OnLogoutClicked" BackgroundColor="Red"

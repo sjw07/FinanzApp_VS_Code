@@ -20,6 +20,7 @@
                 BackgroundColor="Red"
                 TextColor="White"
                 FontAttributes="Bold"
+                WidthRequest="200"
                 Clicked="OnExitClicked"/>
     </VerticalStackLayout>
 </ContentPage>
