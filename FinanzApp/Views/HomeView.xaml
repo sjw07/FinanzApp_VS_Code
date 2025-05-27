@@ -5,8 +5,8 @@
              BackgroundImageSource="backgroundimage.png"
              Opacity="0.5">
     <VerticalStackLayout Padding="20" Spacing="10">
-        <Button Text="Monatsübersicht" Clicked="OnMonthClicked"/>
-        <Button Text="Jahresübersicht" Clicked="OnYearClicked"/>
-        <Button Text="Abmelden" Clicked="OnLogoutClicked"/>
+        <Button x:Name="MonthButton" Text="Monatsübersicht" Clicked="OnMonthClicked"/>
+        <Button x:Name="YearButton" Text="Jahresübersicht" Clicked="OnYearClicked"/>
+        <Button x:Name="LogoutButton" Text="Abmelden" Clicked="OnLogoutClicked"/>
     </VerticalStackLayout>
 </ContentPage>
