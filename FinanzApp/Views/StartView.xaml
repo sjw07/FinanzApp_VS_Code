@@ -4,8 +4,22 @@
              x:Class="FinanzApp.StartView"
              BackgroundImageSource="backgroundimage.png">
     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
-        <Label Text="FinanzApp 2025" TextColor="White" FontAttributes="Bold" FontSize="Large" HorizontalTextAlignment="Center" />
-        <Button Text="Anmelden" BackgroundColor="Green" TextColor="White" Clicked="OnLoginClicked"/>
-        <Button Text="Beenden" BackgroundColor="Red" TextColor="White" Clicked="OnExitClicked"/>
+        <Label Text="FinanzApp 2025"
+               TextColor="White"
+               FontAttributes="Bold"
+               FontSize="27"
+               Margin="0,0,0,227"
+               HorizontalTextAlignment="Center" />
+        <Button Text="Anmelden"
+                BackgroundColor="Green"
+                TextColor="White"
+                FontAttributes="Bold"
+                WidthRequest="200"
+                Clicked="OnLoginClicked"/>
+        <Button Text="Beenden"
+                BackgroundColor="Red"
+                TextColor="White"
+                FontAttributes="Bold"
+                Clicked="OnExitClicked"/>
     </VerticalStackLayout>
 </ContentPage>
