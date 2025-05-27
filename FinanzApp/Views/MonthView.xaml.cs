@@ -105,6 +105,10 @@ public partial class MonthView : ContentPage
             .Where(e => e.Datum < monthStart)
             .Sum(e => e.Betrag);
 
+        var carry = new FinanceEntry
+        {
+            Datum = monthStart,
+            Betrag = carryBalance,
         var balance = carryBalance + monthEntries.Sum(e => e.Betrag);
         BalanceLabel.Text = $"Bilanz: {balance:C}";
 
@@ -117,6 +121,10 @@ public partial class MonthView : ContentPage
 
         monthEntries.Insert(0, carry);
 
+        var monthBalance = monthEntries.Sum(e => e.Betrag);
+        BalanceLabel.Text = $"Bilanz: {monthBalance:C}";
+
+        ApplySort(monthEntries);
         ApplySort(monthEntries);
             Betrag = carryBalance,
             Name = "\u00dcbertrag"
