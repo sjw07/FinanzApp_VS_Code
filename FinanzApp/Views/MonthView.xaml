@@ -17,25 +17,35 @@
         </Grid>
         <Grid ColumnDefinitions="3*,1*" ColumnSpacing="10" VerticalOptions="Fill">
             <Border Grid.Column="0" Margin="40,0,0,0" Stroke="Black" StrokeThickness="2" BackgroundColor="#0DD3D3D3">
-                <ScrollView Orientation="Vertical" VerticalOptions="Fill">
+                <VerticalStackLayout Spacing="5">
+                <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
                     <CollectionView x:Name="EntriesView" VerticalOptions="Fill" SelectionMode="Single" SelectionChanged="OnSelectionChanged">
                         <CollectionView.Header>
                             <Grid Padding="3" ColumnDefinitions="*,*,*" BackgroundColor="LightGray">
-                                <Label Text="Datum" FontSize="14" FontAttributes="Bold" TextColor="Black">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnSortByDate" />
-                                    </Label.GestureRecognizers>
-                                </Label>
-                                <Label Text="Betrag" Grid.Column="1" FontSize="14" FontAttributes="Bold" TextColor="Black">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnSortByAmount" />
-                                    </Label.GestureRecognizers>
-                                </Label>
-                                <Label Text="Name" Grid.Column="2" FontSize="14" FontAttributes="Bold" TextColor="Black">
-                                    <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnSortByName" />
-                                    </Label.GestureRecognizers>
-                                </Label>
+                                <HorizontalStackLayout>
+                                    <Label Text="Datum" FontSize="14" FontAttributes="Bold" TextColor="Black">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSortByDate" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label x:Name="DateSortIcon" Text="-" FontSize="14" TextColor="Black" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Grid.Column="1">
+                                    <Label Text="Betrag" FontSize="14" FontAttributes="Bold" TextColor="Black">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSortByAmount" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label x:Name="AmountSortIcon" Text="-" FontSize="14" TextColor="Black" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Grid.Column="2">
+                                    <Label Text="Name" FontSize="14" FontAttributes="Bold" TextColor="Black">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSortByName" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label x:Name="NameSortIcon" Text="-" FontSize="14" TextColor="Black" />
+                                </HorizontalStackLayout>
                             </Grid>
                         </CollectionView.Header>
                         <CollectionView.ItemTemplate>
@@ -77,7 +87,7 @@
                                            Grid.Column="2"
                                            FontSize="12"
                                            FontAttributes="Bold"
-                                           TextColor="Black">
+                                           TextColor="White">
                                         <Label.Triggers>
                                             <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
                                                 <Setter Property="TextColor" Value="DarkOrange" />
@@ -89,6 +99,8 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </ScrollView>
+                <Label x:Name="BalanceLabel" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" />
+                </VerticalStackLayout>
             </Border>
 
             <VerticalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
