@@ -164,7 +164,7 @@ public partial class MonthView : ContentPage
         FilterEntries();
     }
 
-    async void OnNewEntryClicked(object sender, EventArgs e)
+    void OnNewEntryClicked(object sender, EventArgs e)
     {
         var page = new NewEntryPage();
         page.Disappearing += async (_, __) =>
@@ -173,12 +173,45 @@ public partial class MonthView : ContentPage
             _allEntries.AddRange(await _service.GetEntriesAsync(App.LoggedInUser));
             FilterEntries();
         };
-        await Navigation.PushModalAsync(page);
+        var mainWin = Application.Current?.Windows.FirstOrDefault();
+        var win = new Window(page)
+        {
+            Title = "Neuer Eintrag"
+        };
+        if (mainWin != null)
+        {
+            win.Width = mainWin.Width / 2;
+            win.Height = mainWin.Height / 2;
+        }
+        Application.Current?.OpenWindow(win);
     }
 
-    async void OnEditEntryClicked(object sender, EventArgs e)
+    void OnEditEntryClicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Info", "Eintrag \u00e4ndern", "OK");
+        if (EntriesView.SelectedItem is not FinanceEntry entry || entry.Name == "\u00dcbertrag")
+        {
+            DisplayAlert("Fehler", "Bitte einen Eintrag ausw\u00e4hlen", "OK");
+            return;
+        }
+
+        var page = new EditEntryPage(entry);
+        page.Disappearing += async (_, __) =>
+        {
+            _allEntries.Clear();
+            _allEntries.AddRange(await _service.GetEntriesAsync(App.LoggedInUser));
+            FilterEntries();
+        };
+        var mainWin = Application.Current?.Windows.FirstOrDefault();
+        var win = new Window(page)
+        {
+            Title = "Eintrag \u00e4ndern"
+        };
+        if (mainWin != null)
+        {
+            win.Width = mainWin.Width / 2;
+            win.Height = mainWin.Height / 2;
+        }
+        Application.Current?.OpenWindow(win);
     }
 
     void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
