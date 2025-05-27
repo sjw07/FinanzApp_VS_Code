@@ -1,4 +1,5 @@
 using FinanzApp.Data;
+using FinanzApp.Graphs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ public partial class YearView : ContentPage
     readonly FinanceService _service = new();
     List<FinanceEntry> _entries = new();
     int? _selectedYear;
+    readonly YearGraphDrawable _graph = new();
 
     public YearView()
     {
@@ -19,6 +21,7 @@ public partial class YearView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        FinanceService.EntriesChanged += OnEntriesChanged;
         _entries = await _service.GetEntriesAsync(App.LoggedInUser);
         if (App.MonthlyBalances.Count == 0)
         {
@@ -27,6 +30,14 @@ public partial class YearView : ContentPage
                 App.MonthlyBalances[kv.Key] = kv.Value;
         }
         BuildGrid();
+        _graph.Entries = _entries;
+        YearGraph.Drawable = _graph;
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        FinanceService.EntriesChanged -= OnEntriesChanged;
     }
 
     void BuildGrid()
@@ -125,6 +136,19 @@ public partial class YearView : ContentPage
         Grid.SetRow(label, row);
         Grid.SetColumn(label, column);
     }
+
+    async void OnEntriesChanged(object? sender, EventArgs e)
+    {
+        _entries = await _service.GetEntriesAsync(App.LoggedInUser);
+        var dict = _service.CalculateMonthlyBalances(_entries);
+        App.MonthlyBalances.Clear();
+        foreach (var kv in dict)
+            App.MonthlyBalances[kv.Key] = kv.Value;
+        BuildGrid();
+        _graph.Entries = _entries;
+        YearGraph.Invalidate();
+    }
+
 
     async void OnHomeClicked(object? sender, EventArgs e)
     {
