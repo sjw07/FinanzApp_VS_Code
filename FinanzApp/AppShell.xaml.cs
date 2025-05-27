@@ -10,5 +10,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(HomeView), typeof(HomeView));
         Routing.RegisterRoute(nameof(MonthView), typeof(MonthView));
         Routing.RegisterRoute(nameof(YearView), typeof(YearView));
+        Routing.RegisterRoute(nameof(NewEntryPage), typeof(NewEntryPage));
     }
 }

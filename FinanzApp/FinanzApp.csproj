@@ -69,6 +69,7 @@
 
         <ItemGroup>
                 <None Include="Data/FinanzApp.db" CopyToOutputDirectory="PreserveNewest" />
+                <None Include="Data/unique_entry_indices.sql" />
         </ItemGroup>
 
 </Project>

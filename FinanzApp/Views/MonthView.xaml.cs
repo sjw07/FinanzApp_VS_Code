@@ -166,7 +166,14 @@ public partial class MonthView : ContentPage
 
     async void OnNewEntryClicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Info", "Neuer Eintrag", "OK");
+        var page = new NewEntryPage();
+        page.Disappearing += async (_, __) =>
+        {
+            _allEntries.Clear();
+            _allEntries.AddRange(await _service.GetEntriesAsync(App.LoggedInUser));
+            FilterEntries();
+        };
+        await Navigation.PushModalAsync(page);
     }
 
     async void OnEditEntryClicked(object sender, EventArgs e)
