@@ -89,10 +89,27 @@ public partial class MonthView : ContentPage
 
     void FilterEntries()
     {
-        var filtered = _allEntries
+        DateTime monthStart = new DateTime(_currentYear, _currentMonth, 1);
+        var monthEntries = _allEntries
             .Where(e => e.Datum.Month == _currentMonth && e.Datum.Year == _currentYear)
             .ToList();
 
+        var carryBalance = _allEntries
+            .Where(e => e.Datum < monthStart)
+            .Sum(e => e.Betrag);
+
+        var balance = carryBalance + monthEntries.Sum(e => e.Betrag);
+        BalanceLabel.Text = $"Bilanz: {balance:C}";
+
+        var carry = new FinanceEntry
+        {
+            Datum = monthStart,
+            Betrag = carryBalance,
+            Name = "\u00dcbertrag"
+        };
+        monthEntries.Insert(0, carry);
+
+        ApplySort(monthEntries);
         var balance = filtered.Sum(e => e.Betrag);
         BalanceLabel.Text = $"Bilanz: {balance:C}";
 
