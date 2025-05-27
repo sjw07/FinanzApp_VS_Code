@@ -14,7 +14,8 @@ public class YearGraphDrawable : IDrawable
     {
         if (Entries.Count == 0)
             return;
-
+        var months = new List<DateTime>();
+        for (int year = 2020; year <= 2030; year++)
         var startYear = Entries.Min(e => e.Datum.Year);
         var endYear = Entries.Max(e => e.Datum.Year);
         var months = new List<DateTime>();
@@ -51,6 +52,12 @@ public class YearGraphDrawable : IDrawable
         float height = dirtyRect.Height;
         float stepX = width / (months.Count - 1);
 
+        float prevIncY = height - (float)((double)incomes[0] / (double)maxBalance * height);
+        float prevExpY = height - (float)((double)expenses[0] / (double)maxBalance * height);
+        float prevBalY = height - (float)((double)balances[0] / (double)maxBalance * height);
+        PointF prevInc = new PointF(0, prevIncY);
+        PointF prevExp = new PointF(0, prevExpY);
+        PointF prevBal = new PointF(0, prevBalY);
         PointF prevInc = new PointF(0, height - (float)(incomes[0] / maxBalance * height));
         PointF prevExp = new PointF(0, height - (float)(expenses[0] / maxBalance * height));
         PointF prevBal = new PointF(0, height - (float)(balances[0] / maxBalance * height));
@@ -58,6 +65,9 @@ public class YearGraphDrawable : IDrawable
         for (int i = 1; i < months.Count; i++)
         {
             float x = i * stepX;
+            float yInc = height - (float)((double)incomes[i] / (double)maxBalance * height);
+            float yExp = height - (float)((double)expenses[i] / (double)maxBalance * height);
+            float yBal = height - (float)((double)balances[i] / (double)maxBalance * height);
             float yInc = height - (float)(incomes[i] / maxBalance * height);
             float yExp = height - (float)(expenses[i] / maxBalance * height);
             float yBal = height - (float)(balances[i] / maxBalance * height);
