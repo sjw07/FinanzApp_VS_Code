@@ -81,6 +81,9 @@ public partial class MonthView : ContentPage
             "Name" => _sortAscending ? entries.OrderBy(e => e.Name) : entries.OrderByDescending(e => e.Name),
             _ => _sortAscending ? entries.OrderBy(e => e.Datum) : entries.OrderByDescending(e => e.Datum)
         };
+        EntriesView.SelectedItem = null;
+        foreach (var entry in _allEntries)
+            entry.IsSelected = false;
         EntriesView.ItemsSource = ordered.ToList();
     }
 
@@ -128,5 +131,14 @@ public partial class MonthView : ContentPage
     async void OnEditEntryClicked(object sender, EventArgs e)
     {
         await DisplayAlert("Info", "Eintrag \u00e4ndern", "OK");
+    }
+
+    void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        foreach (FinanceEntry item in e.PreviousSelection.OfType<FinanceEntry>())
+            item.IsSelected = false;
+
+        foreach (FinanceEntry item in e.CurrentSelection.OfType<FinanceEntry>())
+            item.IsSelected = true;
     }
 }
