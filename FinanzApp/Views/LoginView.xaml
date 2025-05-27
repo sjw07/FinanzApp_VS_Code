@@ -7,7 +7,17 @@
         <VerticalStackLayout Padding="20" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
             <Entry x:Name="usernameEntry" Placeholder="Benutzername"/>
             <Entry x:Name="passwordEntry" Placeholder="Passwort" IsPassword="True"/>
-            <Button Text="Anmelden" BackgroundColor="LightGreen" Clicked="OnLoginClicked"/>
+            <Button Text="Anmelden"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    WidthRequest="200"
+                    Clicked="OnLoginClicked"/>
+            <Button Text="Registrierung"
+                    BackgroundColor="DarkBlue"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Clicked="OnRegisterClicked"/>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

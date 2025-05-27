@@ -10,28 +10,29 @@
             <Label x:Name="TitleLabel" Grid.Column="1"
                    FontAttributes="Bold"
                    FontSize="18"
+                   Margin="75,0"
                    VerticalOptions="Center"
                    HorizontalOptions="Center" />
             <Button Text="&#x276F;" Grid.Column="2" Clicked="OnNextMonthClicked" FontSize="16" />
         </Grid>
 
         <Grid ColumnDefinitions="3*,1*" ColumnSpacing="10" VerticalOptions="FillAndExpand">
-            <Border Grid.Column="0" Margin="40,0,0,0" Stroke="Black" StrokeThickness="1">
+            <Border Grid.Column="0" Margin="40,0,0,0" Stroke="Black" StrokeThickness="2" BackgroundColor="#0DD3D3D3">
                 <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
                     <CollectionView x:Name="EntriesView" VerticalOptions="FillAndExpand" SelectionMode="Single">
                         <CollectionView.Header>
                             <Grid Padding="3" ColumnDefinitions="*,*,*" BackgroundColor="LightGray">
-                                <Label Text="Datum" FontSize="14" FontAttributes="Bold">
+                                <Label Text="Datum" FontSize="14" FontAttributes="Bold" TextColor="Black">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnSortByDate" />
                                     </Label.GestureRecognizers>
                                 </Label>
-                                <Label Text="Betrag" Grid.Column="1" FontSize="14" FontAttributes="Bold">
+                                <Label Text="Betrag" Grid.Column="1" FontSize="14" FontAttributes="Bold" TextColor="Black">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnSortByAmount" />
                                     </Label.GestureRecognizers>
                                 </Label>
-                                <Label Text="Name" Grid.Column="2" FontSize="14" FontAttributes="Bold">
+                                <Label Text="Name" Grid.Column="2" FontSize="14" FontAttributes="Bold" TextColor="Black">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnSortByName" />
                                     </Label.GestureRecognizers>
@@ -41,15 +42,37 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid x:Name="ItemGrid" Padding="3" ColumnDefinitions="*,*,*">
-                                    <Label Text="{Binding Datum, StringFormat='{0:dd.MM.yyyy}'}" FontSize="12" FontAttributes="Bold" />
-                                    <Label Text="{Binding Betrag}" Grid.Column="1" FontSize="12" FontAttributes="Bold" />
-                                    <Label Text="{Binding Name}" Grid.Column="2" FontSize="12" FontAttributes="Bold" />
+                                    <Label x:Name="DateLabel"
+                                           Text="{Binding Datum, StringFormat='{0:dd.MM.yyyy}'}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"
+                                           TextColor="Black" />
+                                    <Label x:Name="AmountLabel"
+                                           Text="{Binding Betrag}"
+                                           Grid.Column="1"
+                                           FontSize="12"
+                                           FontAttributes="Bold"
+                                           TextColor="Black" />
+                                    <Label x:Name="NameLabel"
+                                           Text="{Binding Name}"
+                                           Grid.Column="2"
+                                           FontSize="12"
+                                           FontAttributes="Bold"
+                                           TextColor="Black" />
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup x:Name="CommonStates">
-                                            <VisualState x:Name="Normal" />
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter TargetName="DateLabel" Property="TextColor" Value="Black" />
+                                                    <Setter TargetName="AmountLabel" Property="TextColor" Value="Black" />
+                                                    <Setter TargetName="NameLabel" Property="TextColor" Value="Black" />
+                                                </VisualState.Setters>
+                                            </VisualState>
                                             <VisualState x:Name="Selected">
                                                 <VisualState.Setters>
                                                     <Setter TargetName="ItemGrid" Property="BackgroundColor" Value="LightBlue" />
+                                                    <Setter TargetName="DateLabel" Property="TextColor" Value="DarkOrange" />
+                                                    <Setter TargetName="NameLabel" Property="TextColor" Value="DarkOrange" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                         </VisualStateGroup>
@@ -63,9 +86,9 @@
 
             <VerticalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
                 <Button Text="Neuer Eintrag" Clicked="OnNewEntryClicked"
-                        BackgroundColor="LightGreen" TextColor="White" />
+                        BackgroundColor="LightGreen" TextColor="White" FontAttributes="Bold" />
                 <Button Text="Eintrag &#228;ndern" Clicked="OnEditEntryClicked"
-                        BackgroundColor="Orange" TextColor="White" />
+                        BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" />
             </VerticalStackLayout>
         </Grid>
         </VerticalStackLayout>
