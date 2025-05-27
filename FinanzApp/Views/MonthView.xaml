@@ -9,7 +9,6 @@
                FontAttributes="Bold"
                FontSize="18"
                HorizontalOptions="Center" />
-
         <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
             <CollectionView x:Name="EntriesView"
                            VerticalOptions="FillAndExpand">
