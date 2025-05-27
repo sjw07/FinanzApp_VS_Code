@@ -89,18 +89,11 @@ public partial class MonthView : ContentPage
 
     void FilterEntries()
     {
-        DateTime monthStart = new DateTime(_currentYear, _currentMonth, 1);
         var monthEntries = _allEntries
             .Where(e => e.Datum.Month == _currentMonth && e.Datum.Year == _currentYear)
             .ToList();
 
         var monthStart = new DateTime(_currentYear, _currentMonth, 1);
-        var prevBalance = _allEntries
-            .Where(e => e.Datum < monthStart)
-            .Sum(e => e.Betrag);
-
-        var currentBalance = prevBalance + monthEntries.Sum(e => e.Betrag);
-        BalanceLabel.Text = $"Bilanz: {currentBalance:C}";
         var carryBalance = _allEntries
             .Where(e => e.Datum < monthStart)
             .Sum(e => e.Betrag);
@@ -109,13 +102,6 @@ public partial class MonthView : ContentPage
         {
             Datum = monthStart,
             Betrag = carryBalance,
-        var balance = carryBalance + monthEntries.Sum(e => e.Betrag);
-        BalanceLabel.Text = $"Bilanz: {balance:C}";
-
-        var carry = new FinanceEntry
-        {
-            Datum = monthStart,
-            Betrag = prevBalance,
             Name = "\u00dcbertrag"
         };
 
@@ -125,30 +111,6 @@ public partial class MonthView : ContentPage
         BalanceLabel.Text = $"Bilanz: {monthBalance:C}";
 
         ApplySort(monthEntries);
-        ApplySort(monthEntries);
-            Betrag = carryBalance,
-            Name = "\u00dcbertrag"
-        };
-        monthEntries.Insert(0, carry);
-
-        ApplySort(monthEntries);
-        var balance = filtered.Sum(e => e.Betrag);
-        BalanceLabel.Text = $"Bilanz: {balance:C}";
-
-        int prevMonth = _currentMonth == 1 ? 12 : _currentMonth - 1;
-        int prevYear = _currentMonth == 1 ? _currentYear - 1 : _currentYear;
-        var prevBalance = _allEntries
-            .Where(e => e.Datum.Month == prevMonth && e.Datum.Year == prevYear)
-            .Sum(e => e.Betrag);
-        var carry = new FinanceEntry
-        {
-            Datum = new DateTime(_currentYear, _currentMonth, 1),
-            Betrag = prevBalance,
-            Name = "\u00dcbertrag"
-        };
-        filtered.Insert(0, carry);
-
-        ApplySort(filtered);
         UpdateSortIcons();
     }
 
