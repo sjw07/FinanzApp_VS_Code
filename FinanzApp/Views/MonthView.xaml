@@ -5,30 +5,68 @@
              BackgroundImageSource="backgroundimage.png"
              Opacity="0.5">
     <VerticalStackLayout>
-        <Label Text="Monatsübersicht"
-               FontAttributes="Bold"
-               FontSize="18"
-               HorizontalOptions="Center" />
-        <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
-            <CollectionView x:Name="EntriesView"
-                           VerticalOptions="FillAndExpand">
-                <CollectionView.Header>
-                    <Grid Padding="5" ColumnDefinitions="*,*,*" BackgroundColor="LightGray">
-                        <Label Text="Datum" />
-                        <Label Text="Betrag" Grid.Column="1" />
-                        <Label Text="Name" Grid.Column="2" />
-                    </Grid>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="5" ColumnDefinitions="*,*,*">
-                            <Label Text="{Binding Datum, StringFormat='{0:dd.MM.yyyy}'}" />
-                            <Label Text="{Binding Betrag}" Grid.Column="1" />
-                            <Label Text="{Binding Name}" Grid.Column="2" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </ScrollView>
+        <Grid ColumnDefinitions="50,*,50" Margin="0,10" HorizontalOptions="Center">
+            <Button Text="&#x276E;" Clicked="OnPrevMonthClicked" FontSize="16" />
+            <Label x:Name="TitleLabel" Grid.Column="1"
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center" />
+            <Button Text="&#x276F;" Grid.Column="2" Clicked="OnNextMonthClicked" FontSize="16" />
+        </Grid>
+
+        <Grid ColumnDefinitions="3*,1*" ColumnSpacing="10" VerticalOptions="FillAndExpand">
+            <Border Grid.Column="0" Margin="40,0,0,0" Stroke="Black" StrokeThickness="1">
+                <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+                    <CollectionView x:Name="EntriesView" VerticalOptions="FillAndExpand" SelectionMode="Single">
+                        <CollectionView.Header>
+                            <Grid Padding="3" ColumnDefinitions="*,*,*" BackgroundColor="LightGray">
+                                <Label Text="Datum" FontSize="14" FontAttributes="Bold">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnSortByDate" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="Betrag" Grid.Column="1" FontSize="14" FontAttributes="Bold">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnSortByAmount" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label Text="Name" Grid.Column="2" FontSize="14" FontAttributes="Bold">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnSortByName" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid x:Name="ItemGrid" Padding="3" ColumnDefinitions="*,*,*">
+                                    <Label Text="{Binding Datum, StringFormat='{0:dd.MM.yyyy}'}" FontSize="12" FontAttributes="Bold" />
+                                    <Label Text="{Binding Betrag}" Grid.Column="1" FontSize="12" FontAttributes="Bold" />
+                                    <Label Text="{Binding Name}" Grid.Column="2" FontSize="12" FontAttributes="Bold" />
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal" />
+                                            <VisualState x:Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter TargetName="ItemGrid" Property="BackgroundColor" Value="LightBlue" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
+            </Border>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+                <Button Text="Neuer Eintrag" Clicked="OnNewEntryClicked"
+                        BackgroundColor="LightGreen" TextColor="White" />
+                <Button Text="Eintrag &#228;ndern" Clicked="OnEditEntryClicked"
+                        BackgroundColor="Orange" TextColor="White" />
+            </VerticalStackLayout>
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>
