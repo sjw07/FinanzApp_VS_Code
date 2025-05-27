@@ -5,8 +5,8 @@
     <Grid>
         <Image Source="backgroundimage.png" Aspect="AspectFill" Opacity="0.5" />
         <VerticalStackLayout Padding="20" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-            <Entry x:Name="usernameEntry" Placeholder="Benutzername" WidthRequest="150" HorizontalOptions="Center"/>
-            <Entry x:Name="passwordEntry" Placeholder="Passwort" IsPassword="True" WidthRequest="150" HorizontalOptions="Center"/>
+            <Entry x:Name="usernameEntry" Placeholder="Benutzername" WidthRequest="75" HorizontalOptions="Center"/>
+            <Entry x:Name="passwordEntry" Placeholder="Passwort" IsPassword="True" WidthRequest="75" HorizontalOptions="Center"/>
             <Button Text="Anmelden"
                     BackgroundColor="Green"
                     TextColor="White"
