@@ -14,6 +14,8 @@ public partial class NewEntryPage : ContentPage
 
     void OnCancelClicked(object? sender, EventArgs e)
     {
+        if (this.Window is not null)
+            Application.Current?.CloseWindow(this.Window);
         this.Window?.Close();
     }
 
@@ -45,6 +47,8 @@ public partial class NewEntryPage : ContentPage
             return;
         }
 
+        if (this.Window is not null)
+            Application.Current?.CloseWindow(this.Window);
         this.Window?.Close();
     }
 }
