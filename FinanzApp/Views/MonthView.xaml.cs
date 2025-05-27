@@ -153,12 +153,12 @@ public partial class MonthView : ContentPage
             item.IsSelected = true;
     }
 
-    async void OnHomeClicked(object sender, EventArgs e)
+    async void OnHomeClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(HomeView));
     }
 
-    async void OnLogoutClicked(object sender, EventArgs e)
+    async void OnLogoutClicked(object? sender, EventArgs e)
     {
         App.LoggedInUser = null;
         await Shell.Current.GoToAsync("//StartView");
