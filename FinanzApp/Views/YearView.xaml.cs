@@ -42,7 +42,7 @@ public partial class YearView : ContentPage
         YearGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         AddHeader("Monat", 0, 0);
         for (int year = 2020; year <= 2030; year++)
-            AddHeader(year.ToString(), year - 2020 + 1, 0, true, year);
+            AddHeader(year.ToString(), year - 2020 + 1, 0, true, true, year);
 
         string[] months = new[]
         {
