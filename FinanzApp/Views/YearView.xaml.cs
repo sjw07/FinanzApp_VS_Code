@@ -8,6 +8,8 @@ namespace FinanzApp;
 public partial class YearView : ContentPage
 {
     readonly FinanceService _service = new();
+    List<FinanceEntry> _entries = new();
+    int? _selectedYear;
 
     public YearView()
     {
@@ -17,11 +19,17 @@ public partial class YearView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        var entries = await _service.GetEntriesAsync(App.LoggedInUser);
-        BuildGrid(entries);
+        _entries = await _service.GetEntriesAsync(App.LoggedInUser);
+        if (App.MonthlyBalances.Count == 0)
+        {
+            var dict = _service.CalculateMonthlyBalances(_entries);
+            foreach (var kv in dict)
+                App.MonthlyBalances[kv.Key] = kv.Value;
+        }
+        BuildGrid();
     }
 
-    void BuildGrid(List<FinanceEntry> entries)
+    void BuildGrid()
     {
         YearGrid.RowDefinitions.Clear();
         YearGrid.ColumnDefinitions.Clear();
@@ -34,7 +42,7 @@ public partial class YearView : ContentPage
         YearGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         AddHeader("Monat", 0, 0);
         for (int year = 2020; year <= 2030; year++)
-            AddHeader(year.ToString(), year - 2020 + 1, 0);
+            AddHeader(year.ToString(), year - 2020 + 1, 0, true, year);
 
         string[] months = new[]
         {
@@ -49,15 +57,31 @@ public partial class YearView : ContentPage
 
             for (int year = 2020; year <= 2030; year++)
             {
-                decimal sum = entries
-                    .Where(e => e.Datum.Year == year && e.Datum.Month == i + 1)
-                    .Sum(e => e.Betrag);
-                AddValue(sum, year - 2020 + 1, i + 1);
+                if (!App.MonthlyBalances.TryGetValue((year, i + 1), out var sum))
+                {
+                    sum = _entries
+                        .Where(e => e.Datum.Year == year && e.Datum.Month == i + 1)
+                        .Sum(e => e.Betrag);
+                }
+                AddValue(sum, year - 2020 + 1, i + 1, year);
             }
+        }
+
+        YearGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        AddHeader("Gesamt", 0, months.Length + 1, true);
+        for (int year = 2020; year <= 2030; year++)
+        {
+            if (!App.MonthlyBalances.TryGetValue((year, 12), out var total))
+            {
+                total = _entries
+                    .Where(e => e.Datum.Year == year)
+                    .Sum(e => e.Betrag);
+            }
+            AddValue(total, year - 2020 + 1, months.Length + 1, year);
         }
     }
 
-    void AddHeader(string text, int column, int row, bool bold = true)
+    void AddHeader(string text, int column, int row, bool bold = true, bool isYear = false, int year = 0)
     {
         var label = new Label
         {
@@ -65,14 +89,23 @@ public partial class YearView : ContentPage
             FontSize = 14,
             FontAttributes = bold ? FontAttributes.Bold : FontAttributes.None,
             TextColor = Colors.Black,
-            Margin = new Thickness(2)
+            Margin = new Thickness(2),
+            BackgroundColor = Colors.White
         };
+        if (isYear)
+        {
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += (_, __) => { _selectedYear = year; BuildGrid(); };
+            label.GestureRecognizers.Add(tap);
+            if (_selectedYear == year)
+                label.BackgroundColor = Colors.LightBlue;
+        }
         YearGrid.Children.Add(label);
         Grid.SetRow(label, row);
         Grid.SetColumn(label, column);
     }
 
-    void AddValue(decimal value, int column, int row)
+    void AddValue(decimal value, int column, int row, int year)
     {
         var label = new Label
         {
@@ -83,6 +116,11 @@ public partial class YearView : ContentPage
             Margin = new Thickness(2),
             HorizontalTextAlignment = TextAlignment.End
         };
+        if (_selectedYear == year)
+            label.BackgroundColor = Colors.LightBlue;
+        var tap = new TapGestureRecognizer();
+        tap.Tapped += (_, __) => { _selectedYear = year; BuildGrid(); };
+        label.GestureRecognizers.Add(tap);
         YearGrid.Children.Add(label);
         Grid.SetRow(label, row);
         Grid.SetColumn(label, column);
