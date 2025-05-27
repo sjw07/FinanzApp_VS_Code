@@ -89,7 +89,7 @@ public partial class YearView : ContentPage
             FontSize = 14,
             FontAttributes = bold ? FontAttributes.Bold : FontAttributes.None,
             TextColor = Colors.Black,
-            Margin = new Thickness(2),
+            Margin = new Thickness(0),
             BackgroundColor = Colors.White
         };
         if (isYear)
