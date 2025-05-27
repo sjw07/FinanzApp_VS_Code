@@ -9,7 +9,7 @@
             <Grid ColumnDefinitions="3*,2*" ColumnSpacing="10" VerticalOptions="Fill">
                 <Border Grid.Column="0" Margin="40,0,0,0" Stroke="Black" StrokeThickness="2" BackgroundColor="#0DD3D3D3">
                     <ScrollView x:Name="Scroll" Orientation="Both">
-                        <Grid x:Name="YearGrid" Padding="3" RowSpacing="2" ColumnSpacing="5" />
+                        <Grid x:Name="YearGrid" Padding="3" RowSpacing="0" ColumnSpacing="0" />
                     </ScrollView>
                 </Border>
                 <VerticalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
