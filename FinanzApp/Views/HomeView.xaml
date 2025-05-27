@@ -4,9 +4,9 @@
              x:Class="FinanzApp.HomeView"
              BackgroundImageSource="backgroundimage.png"
              Opacity="0.5">
-    <VerticalStackLayout Padding="20" Spacing="10">
-        <Button x:Name="MonthButton" Text="Monatsübersicht" Clicked="OnMonthClicked"/>
-        <Button x:Name="YearButton" Text="Jahresübersicht" Clicked="OnYearClicked"/>
-        <Button x:Name="LogoutButton" Text="Abmelden" Clicked="OnLogoutClicked"/>
+    <VerticalStackLayout Padding="20" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+        <Button x:Name="MonthButton" Text="Monatsübersicht" Clicked="OnMonthClicked" TextColor="White"/>
+        <Button x:Name="YearButton" Text="Jahresübersicht" Clicked="OnYearClicked" TextColor="White"/>
+        <Button x:Name="LogoutButton" Text="Abmelden" Clicked="OnLogoutClicked" TextColor="White" BackgroundColor="Red"/>
     </VerticalStackLayout>
 </ContentPage>
