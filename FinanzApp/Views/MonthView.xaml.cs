@@ -10,6 +10,8 @@ public partial class MonthView : ContentPage
     readonly List<FinanceEntry> _allEntries = new();
     int _currentMonth;
     int _currentYear;
+    string _sortColumn = "Datum";
+    bool _sortAscending = true;
 
     public MonthView()
     {
@@ -68,7 +70,54 @@ public partial class MonthView : ContentPage
         var filtered = _allEntries
             .Where(e => e.Datum.Month == _currentMonth && e.Datum.Year == _currentYear)
             .ToList();
-        EntriesView.ItemsSource = filtered;
+        ApplySort(filtered);
+    }
+
+    void ApplySort(List<FinanceEntry> entries)
+    {
+        IOrderedEnumerable<FinanceEntry>? ordered = _sortColumn switch
+        {
+            "Betrag" => _sortAscending ? entries.OrderBy(e => e.Betrag) : entries.OrderByDescending(e => e.Betrag),
+            "Name" => _sortAscending ? entries.OrderBy(e => e.Name) : entries.OrderByDescending(e => e.Name),
+            _ => _sortAscending ? entries.OrderBy(e => e.Datum) : entries.OrderByDescending(e => e.Datum)
+        };
+        EntriesView.ItemsSource = ordered.ToList();
+    }
+
+    void OnSortByDate(object? sender, EventArgs e)
+    {
+        if (_sortColumn == "Datum")
+            _sortAscending = !_sortAscending;
+        else
+        {
+            _sortColumn = "Datum";
+            _sortAscending = true;
+        }
+        FilterEntries();
+    }
+
+    void OnSortByAmount(object? sender, EventArgs e)
+    {
+        if (_sortColumn == "Betrag")
+            _sortAscending = !_sortAscending;
+        else
+        {
+            _sortColumn = "Betrag";
+            _sortAscending = true;
+        }
+        FilterEntries();
+    }
+
+    void OnSortByName(object? sender, EventArgs e)
+    {
+        if (_sortColumn == "Name")
+            _sortAscending = !_sortAscending;
+        else
+        {
+            _sortColumn = "Name";
+            _sortAscending = true;
+        }
+        FilterEntries();
     }
 
     async void OnNewEntryClicked(object sender, EventArgs e)
