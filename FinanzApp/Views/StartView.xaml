@@ -7,8 +7,8 @@
         <Label Text="FinanzApp 2025"
                TextColor="White"
                FontAttributes="Bold"
-               FontSize="27"
-               Margin="0,0,0,227"
+               FontSize="37"
+               Margin="0,0,0,151"
                HorizontalTextAlignment="Center" />
         <Button Text="Anmelden"
                 BackgroundColor="Green"
