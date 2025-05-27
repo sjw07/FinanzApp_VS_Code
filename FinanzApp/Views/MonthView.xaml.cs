@@ -94,6 +94,13 @@ public partial class MonthView : ContentPage
             .Where(e => e.Datum.Month == _currentMonth && e.Datum.Year == _currentYear)
             .ToList();
 
+        var monthStart = new DateTime(_currentYear, _currentMonth, 1);
+        var prevBalance = _allEntries
+            .Where(e => e.Datum < monthStart)
+            .Sum(e => e.Betrag);
+
+        var currentBalance = prevBalance + monthEntries.Sum(e => e.Betrag);
+        BalanceLabel.Text = $"Bilanz: {currentBalance:C}";
         var carryBalance = _allEntries
             .Where(e => e.Datum < monthStart)
             .Sum(e => e.Betrag);
@@ -104,6 +111,13 @@ public partial class MonthView : ContentPage
         var carry = new FinanceEntry
         {
             Datum = monthStart,
+            Betrag = prevBalance,
+            Name = "\u00dcbertrag"
+        };
+
+        monthEntries.Insert(0, carry);
+
+        ApplySort(monthEntries);
             Betrag = carryBalance,
             Name = "\u00dcbertrag"
         };
