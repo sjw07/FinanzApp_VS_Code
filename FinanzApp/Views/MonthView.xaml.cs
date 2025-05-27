@@ -1,4 +1,5 @@
 using FinanzApp.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,27 @@ public partial class MonthView : ContentPage
     int _currentYear;
     string _sortColumn = "Datum";
     bool _sortAscending = true;
+
+    void UpdateSortIcons()
+    {
+        DateSortIcon.Text = "-";
+        AmountSortIcon.Text = "-";
+        NameSortIcon.Text = "-";
+
+        var arrow = _sortAscending ? "\u2191" : "\u2193"; // up or down arrow
+        switch (_sortColumn)
+        {
+            case "Datum":
+                DateSortIcon.Text = arrow;
+                break;
+            case "Betrag":
+                AmountSortIcon.Text = arrow;
+                break;
+            case "Name":
+                NameSortIcon.Text = arrow;
+                break;
+        }
+    }
 
     public MonthView()
     {
@@ -67,10 +89,29 @@ public partial class MonthView : ContentPage
 
     void FilterEntries()
     {
-        var filtered = _allEntries
+        var monthEntries = _allEntries
             .Where(e => e.Datum.Month == _currentMonth && e.Datum.Year == _currentYear)
             .ToList();
-        ApplySort(filtered);
+
+        var monthStart = new DateTime(_currentYear, _currentMonth, 1);
+        var prevBalance = _allEntries
+            .Where(e => e.Datum < monthStart)
+            .Sum(e => e.Betrag);
+
+        var currentBalance = prevBalance + monthEntries.Sum(e => e.Betrag);
+        BalanceLabel.Text = $"Bilanz: {currentBalance:C}";
+
+        var carry = new FinanceEntry
+        {
+            Datum = monthStart,
+            Betrag = prevBalance,
+            Name = "\u00dcbertrag"
+        };
+
+        monthEntries.Insert(0, carry);
+
+        ApplySort(monthEntries);
+        UpdateSortIcons();
     }
 
     void ApplySort(List<FinanceEntry> entries)
