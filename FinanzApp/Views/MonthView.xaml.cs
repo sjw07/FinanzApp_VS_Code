@@ -14,6 +14,6 @@ public partial class MonthView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        EntriesView.ItemsSource = await _service.GetEntriesAsync();
+        EntriesView.ItemsSource = await _service.GetEntriesAsync(App.LoggedInUser);
     }
 }
