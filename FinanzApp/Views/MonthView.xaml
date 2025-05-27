@@ -10,15 +10,19 @@
             <Label x:Name="TitleLabel" Grid.Column="1"
                    FontAttributes="Bold"
                    FontSize="18"
+                   Margin="75,0"
                    VerticalOptions="Center"
                    HorizontalOptions="Center" />
             <Button Text="&#x276F;" Grid.Column="2" Clicked="OnNextMonthClicked" FontSize="16" />
         </Grid>
-
         <Grid ColumnDefinitions="3*,1*" ColumnSpacing="10" VerticalOptions="Fill">
             <Border Grid.Column="0" Margin="40,0,0,0" Stroke="Black" StrokeThickness="2" BackgroundColor="#0DD3D3D3">
                 <ScrollView Orientation="Vertical" VerticalOptions="Fill">
                     <CollectionView x:Name="EntriesView" VerticalOptions="Fill" SelectionMode="Single">
+        <Grid ColumnDefinitions="3*,1*" ColumnSpacing="10" VerticalOptions="FillAndExpand">
+            <Border Grid.Column="0" Margin="40,0,0,0" Stroke="Black" StrokeThickness="2" BackgroundColor="#0DD3D3D3">
+                <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+                    <CollectionView x:Name="EntriesView" VerticalOptions="FillAndExpand" SelectionMode="Single">
                         <CollectionView.Header>
                             <Grid Padding="3" ColumnDefinitions="*,*,*" BackgroundColor="LightGray">
                                 <Label Text="Datum" FontSize="14" FontAttributes="Bold" TextColor="Black">
