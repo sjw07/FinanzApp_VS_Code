@@ -10,23 +10,26 @@
                FontSize="18"
                HorizontalOptions="Center" />
 
-        <CollectionView x:Name="EntriesView">
-            <CollectionView.Header>
-                <Grid Padding="5" ColumnDefinitions="*,*,*" BackgroundColor="LightGray">
-                    <Label Text="Datum" />
-                    <Label Text="Betrag" Grid.Column="1" />
-                    <Label Text="Name" Grid.Column="2" />
-                </Grid>
-            </CollectionView.Header>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="5" ColumnDefinitions="*,*,*">
-                        <Label Text="{Binding Datum, StringFormat='{0:dd.MM.yyyy}'}" />
-                        <Label Text="{Binding Betrag}" Grid.Column="1" />
-                        <Label Text="{Binding Name}" Grid.Column="2" />
+        <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+            <CollectionView x:Name="EntriesView"
+                           VerticalOptions="FillAndExpand">
+                <CollectionView.Header>
+                    <Grid Padding="5" ColumnDefinitions="*,*,*" BackgroundColor="LightGray">
+                        <Label Text="Datum" />
+                        <Label Text="Betrag" Grid.Column="1" />
+                        <Label Text="Name" Grid.Column="2" />
                     </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="5" ColumnDefinitions="*,*,*">
+                            <Label Text="{Binding Datum, StringFormat='{0:dd.MM.yyyy}'}" />
+                            <Label Text="{Binding Betrag}" Grid.Column="1" />
+                            <Label Text="{Binding Name}" Grid.Column="2" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
     </VerticalStackLayout>
 </ContentPage>
