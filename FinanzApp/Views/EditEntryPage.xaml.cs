@@ -20,6 +20,7 @@ public partial class EditEntryPage : ContentPage
 
     void OnCancelClicked(object? sender, EventArgs e)
     {
+        Application.Current?.CloseWindow(this.Window);
         if (this.Window is not null)
             Application.Current?.CloseWindow(this.Window);
         this.Window?.Close();
@@ -55,6 +56,7 @@ public partial class EditEntryPage : ContentPage
             return;
         }
 
+        Application.Current?.CloseWindow(this.Window);
         if (this.Window is not null)
             Application.Current?.CloseWindow(this.Window);
         this.Window?.Close();
