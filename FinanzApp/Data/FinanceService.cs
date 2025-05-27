@@ -73,5 +73,82 @@ namespace FinanzApp.Data
             }
             return result;
         }
+
+        public async Task<bool> AddEntryAsync(string? user, DateTime datum, decimal betrag, string name)
+        {
+            if (string.IsNullOrEmpty(user))
+                return false;
+
+            var (table, id) = user switch
+            {
+                "Stefan" => ("Entries", 1),
+                "Stefan2" => ("Entries2", 2),
+                "Stefan3" => ("Entries3", 3),
+                "Stefan4" => ("Entries4", 4),
+                _ => ("Entries", 1)
+            };
+
+            using var connection = new SqliteConnection($"Data Source={_dbPath}");
+            await connection.OpenAsync();
+
+            var check = connection.CreateCommand();
+            check.CommandText = $"SELECT COUNT(*) FROM {table} WHERE Datum=@d AND Betrag=@b AND Name=@n";
+            check.Parameters.AddWithValue("@d", datum.ToString("yyyy-MM-dd"));
+            check.Parameters.AddWithValue("@b", betrag);
+            check.Parameters.AddWithValue("@n", name);
+            var count = Convert.ToInt32(await check.ExecuteScalarAsync());
+            if (count > 0)
+                return false;
+
+            var insert = connection.CreateCommand();
+            insert.CommandText = $"INSERT INTO {table} (Datum, Betrag, Name, UserId) VALUES (@d, @b, @n, @uid)";
+            insert.Parameters.AddWithValue("@d", datum.ToString("yyyy-MM-dd"));
+            insert.Parameters.AddWithValue("@b", betrag);
+            insert.Parameters.AddWithValue("@n", name);
+            insert.Parameters.AddWithValue("@uid", id);
+            await insert.ExecuteNonQueryAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateEntryAsync(string? user,
+                                                 DateTime oldDatum, decimal oldBetrag, string oldName,
+                                                 DateTime newDatum, decimal newBetrag, string newName)
+        {
+            if (string.IsNullOrEmpty(user))
+                return false;
+
+            var table = user switch
+            {
+                "Stefan" => "Entries",
+                "Stefan2" => "Entries2",
+                "Stefan3" => "Entries3",
+                "Stefan4" => "Entries4",
+                _ => "Entries"
+            };
+
+            using var connection = new SqliteConnection($"Data Source={_dbPath}");
+            await connection.OpenAsync();
+
+            var check = connection.CreateCommand();
+            check.CommandText = $"SELECT COUNT(*) FROM {table} WHERE Datum=@d AND Betrag=@b AND Name=@n";
+            check.Parameters.AddWithValue("@d", newDatum.ToString("yyyy-MM-dd"));
+            check.Parameters.AddWithValue("@b", newBetrag);
+            check.Parameters.AddWithValue("@n", newName);
+            var count = Convert.ToInt32(await check.ExecuteScalarAsync());
+            if (count > 0 && (oldDatum != newDatum || oldBetrag != newBetrag || oldName != newName))
+                return false;
+
+            var update = connection.CreateCommand();
+            update.CommandText = $"UPDATE {table} SET Datum=@nd, Betrag=@nb, Name=@nn WHERE Datum=@od AND Betrag=@ob AND Name=@on";
+            update.Parameters.AddWithValue("@nd", newDatum.ToString("yyyy-MM-dd"));
+            update.Parameters.AddWithValue("@nb", newBetrag);
+            update.Parameters.AddWithValue("@nn", newName);
+            update.Parameters.AddWithValue("@od", oldDatum.ToString("yyyy-MM-dd"));
+            update.Parameters.AddWithValue("@ob", oldBetrag);
+            update.Parameters.AddWithValue("@on", oldName);
+
+            var affected = await update.ExecuteNonQueryAsync();
+            return affected > 0;
+        }
     }
 }
