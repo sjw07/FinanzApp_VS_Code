@@ -14,9 +14,12 @@ public class YearGraphDrawable : IDrawable
     {
         if (Entries.Count == 0)
             return;
-
         var months = new List<DateTime>();
         for (int year = 2020; year <= 2030; year++)
+        var startYear = Entries.Min(e => e.Datum.Year);
+        var endYear = Entries.Max(e => e.Datum.Year);
+        var months = new List<DateTime>();
+        for (int year = startYear; year <= endYear; year++)
             for (int month = 1; month <= 12; month++)
                 months.Add(new DateTime(year, month, 1));
 
@@ -55,6 +58,9 @@ public class YearGraphDrawable : IDrawable
         PointF prevInc = new PointF(0, prevIncY);
         PointF prevExp = new PointF(0, prevExpY);
         PointF prevBal = new PointF(0, prevBalY);
+        PointF prevInc = new PointF(0, height - (float)(incomes[0] / maxBalance * height));
+        PointF prevExp = new PointF(0, height - (float)(expenses[0] / maxBalance * height));
+        PointF prevBal = new PointF(0, height - (float)(balances[0] / maxBalance * height));
 
         for (int i = 1; i < months.Count; i++)
         {
@@ -62,6 +68,9 @@ public class YearGraphDrawable : IDrawable
             float yInc = height - (float)((double)incomes[i] / (double)maxBalance * height);
             float yExp = height - (float)((double)expenses[i] / (double)maxBalance * height);
             float yBal = height - (float)((double)balances[i] / (double)maxBalance * height);
+            float yInc = height - (float)(incomes[i] / maxBalance * height);
+            float yExp = height - (float)(expenses[i] / maxBalance * height);
+            float yBal = height - (float)(balances[i] / maxBalance * height);
 
             canvas.StrokeColor = Colors.Green;
             canvas.DrawLine(prevInc.X, prevInc.Y, x, yInc);
