@@ -108,6 +108,7 @@ public partial class MonthView : ContentPage
         monthEntries.Insert(0, carry);
 
         var monthBalance = monthEntries.Sum(e => e.Betrag);
+        App.MonthlyBalances[(_currentYear, _currentMonth)] = monthBalance;
         BalanceLabel.Text = $"Bilanz: {monthBalance:C}";
 
         ApplySort(monthEntries);
