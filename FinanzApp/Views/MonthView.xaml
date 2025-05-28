@@ -15,6 +15,9 @@
                    HorizontalOptions="Center" />
             <Button Text="&#x276F;" Grid.Column="2" Clicked="OnNextMonthClicked" FontSize="16" />
         </Grid>
+        <SearchBar x:Name="EntrySearchBar" Placeholder="Suchen" TextChanged="OnSearchTextChanged" />
+        <Label x:Name="SearchTooltip" IsVisible="False" BackgroundColor="#CC000000" TextColor="White"
+               Padding="5" FontSize="12" />
         <Grid ColumnDefinitions="3*,1*" ColumnSpacing="10" VerticalOptions="Fill">
             <Border Grid.Column="0" Margin="40,0,0,0" Stroke="Black" StrokeThickness="2" BackgroundColor="#0DD3D3D3">
                 <VerticalStackLayout Spacing="5">

@@ -242,6 +242,26 @@ public partial class MonthView : ContentPage
         await Shell.Current.GoToAsync(nameof(CalendarView));
     }
 
+    void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        var text = e.NewTextValue?.Trim();
+        if (string.IsNullOrEmpty(text))
+        {
+            SearchTooltip.IsVisible = false;
+            return;
+        }
+
+        var results = _allEntries
+            .Where(entry => entry.Datum.ToString("dd.MM.yyyy").Contains(text, StringComparison.OrdinalIgnoreCase)
+                            || entry.Name.Contains(text, StringComparison.OrdinalIgnoreCase))
+            .OrderBy(entry => entry.Datum)
+            .Take(10)
+            .Select(entry => $"{entry.Datum:dd.MM.yyyy} {entry.Betrag:C} {entry.Name}");
+
+        SearchTooltip.Text = string.Join("\n", results);
+        SearchTooltip.IsVisible = results.Any();
+    }
+
     async void OnLogoutClicked(object? sender, EventArgs e)
     {
         App.LoggedInUser = null;
