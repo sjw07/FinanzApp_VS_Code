@@ -6,17 +6,17 @@
         <Image Source="backgroundimage.png" Aspect="AspectFill" Opacity="0.5" />
         <VerticalStackLayout>
             <Label Text="Jahresübersicht" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" Margin="0,10" />
-            <Grid RowDefinitions="*,Auto" ColumnDefinitions="2*,*" ColumnSpacing="10" RowSpacing="113" VerticalOptions="Fill">
-                <Border Grid.Row="0" Grid.Column="0" Margin="76,0,0,0" Stroke="Black" StrokeThickness="2" BackgroundColor="#0DD3D3D3" WidthRequest="800">
+            <Grid RowDefinitions="*,Auto" ColumnDefinitions="2*,*" ColumnSpacing="10" RowSpacing="10" VerticalOptions="Fill">
+                <Border Grid.Row="0" Grid.Column="0" Margin="75,0,0,0" Stroke="Black" StrokeThickness="2" BackgroundColor="#0DD3D3D3" WidthRequest="800" HorizontalOptions="Start">
                     <ScrollView x:Name="Scroll" Orientation="Both">
                         <Grid x:Name="YearGrid" Padding="3" RowSpacing="2" ColumnSpacing="5" />
                     </ScrollView>
                 </Border>
                 <Grid Grid.Row="1" Grid.Column="0">
-                    <GraphicsView x:Name="YearGraph" HeightRequest="200" Margin="76,0,0,0" />
+                    <GraphicsView x:Name="YearGraph" HeightRequest="200" Margin="75,0,0,0" HorizontalOptions="Start" />
                     <Label x:Name="GraphTooltip" IsVisible="False" BackgroundColor="#CC000000" TextColor="White" Padding="5" FontSize="12" WidthRequest="113" HeightRequest="113" />
                 </Grid>
-                <VerticalStackLayout Grid.Column="1" Grid.RowSpan="2" Spacing="10" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+                <VerticalStackLayout Grid.Column="1" Grid.RowSpan="2" Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
                     <Button Text="Home" Clicked="OnHomeClicked" TextColor="White" FontAttributes="Bold" WidthRequest="200" VerticalOptions="Center" />
                     <Button Text="Abmelden" Clicked="OnLogoutClicked" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" WidthRequest="200" VerticalOptions="Center" />
                 </VerticalStackLayout>
