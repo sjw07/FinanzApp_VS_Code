@@ -57,4 +57,27 @@ public partial class EditEntryPage : ContentPage
         if (this.Window is not null)
             Application.Current?.CloseWindow(this.Window);
     }
+
+    async void OnDeleteClicked(object? sender, EventArgs e)
+    {
+        bool confirm = await DisplayAlert(
+            "Wollen Sie wirklich diesen Eintrag löschen?",
+            InfoLabel.Text,
+            "JA", "NEIN");
+        if (!confirm)
+            return;
+
+        bool success = await _service.DeleteEntryAsync(App.LoggedInUser,
+                                                       _original.Datum,
+                                                       _original.Betrag,
+                                                       _original.Name);
+        if (!success)
+        {
+            await DisplayAlert("Fehler", "Löschen fehlgeschlagen", "OK");
+            return;
+        }
+
+        if (this.Window is not null)
+            Application.Current?.CloseWindow(this.Window);
+    }
 }
