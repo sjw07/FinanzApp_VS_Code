@@ -46,6 +46,13 @@ public partial class MonthView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        if (App.NavigateToMonth is (int year, int month))
+        {
+            _currentYear = year;
+            _currentMonth = month;
+            App.NavigateToMonth = null;
+            UpdateTitle();
+        }
         _allEntries.Clear();
         _allEntries.AddRange(await _service.GetEntriesAsync(App.LoggedInUser));
         FilterEntries();

@@ -10,13 +10,21 @@ public class YearGraphDrawable : IDrawable
 {
     public IList<FinanceEntry> Entries { get; set; } = new List<FinanceEntry>();
 
+    public IReadOnlyList<DateTime> Months { get; private set; } = Array.Empty<DateTime>();
+    public IReadOnlyList<decimal> Incomes { get; private set; } = Array.Empty<decimal>();
+    public IReadOnlyList<decimal> Expenses { get; private set; } = Array.Empty<decimal>();
+    public IReadOnlyList<decimal> Balances { get; private set; } = Array.Empty<decimal>();
+
     public void Draw(ICanvas canvas, RectF dirtyRect)
     {
         if (Entries.Count == 0)
             return;
 
+        const int startYear = 2020;
+        const int endYear = 2030;
+
         var months = new List<DateTime>();
-        for (int year = 2020; year <= 2030; year++)
+        for (int year = startYear; year <= endYear; year++)
             for (int month = 1; month <= 12; month++)
                 months.Add(new DateTime(year, month, 1));
 
@@ -42,12 +50,20 @@ public class YearGraphDrawable : IDrawable
                 maxBalance = running;
         }
 
+        Months = months;
+        Incomes = incomes;
+        Expenses = expenses;
+        Balances = balances;
+
         if (maxBalance == 0)
             maxBalance = 1;
 
         float width = dirtyRect.Width;
         float height = dirtyRect.Height;
         float stepX = width / (months.Count - 1);
+
+        canvas.StrokeColor = Colors.White;
+        canvas.DrawLine(0, 0, 0, height);
 
         float prevIncY = height - (float)((double)incomes[0] / (double)maxBalance * height);
         float prevExpY = height - (float)((double)expenses[0] / (double)maxBalance * height);
@@ -75,13 +91,13 @@ public class YearGraphDrawable : IDrawable
             prevBal = new PointF(x, yBal);
         }
 
-        // draw axes labels for quarters
+        // draw year labels on the x-axis
         canvas.FontColor = Colors.White;
-        for (int i = 0; i < months.Count; i += 3)
+        for (int year = startYear; year <= endYear; year++)
         {
-            float x = i * stepX;
-            var dt = months[i];
-            canvas.DrawString($"{dt.Year} Q{(dt.Month - 1) / 3 + 1}", x, height + 2, HorizontalAlignment.Left);
+            int index = (year - startYear) * 12;
+            float x = index * stepX;
+            canvas.DrawString(year.ToString(), x, height + 2, HorizontalAlignment.Center);
         }
     }
 }
