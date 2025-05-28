@@ -24,6 +24,7 @@
             </Grid>
             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="10">
                 <Button Text="Änderungen speichern" BackgroundColor="Green" TextColor="White" FontAttributes="Bold" Clicked="OnSaveClicked" />
+                <Button Text="Eintrag löschen" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="OnDeleteClicked" />
                 <Button Text="Abbrechen" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" Clicked="OnCancelClicked" />
             </VerticalStackLayout>
         </Grid>
