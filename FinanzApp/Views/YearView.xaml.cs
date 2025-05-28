@@ -18,6 +18,7 @@ public partial class YearView : ContentPage
     decimal[] _incomes = Array.Empty<decimal>();
     decimal[] _expenses = Array.Empty<decimal>();
     decimal[] _balances = Array.Empty<decimal>();
+    int _hoveredIndex = -1;
 
     void OnGraphPointerMoved(object? sender, PointerEventArgs e)
     {
@@ -31,6 +32,7 @@ public partial class YearView : ContentPage
         if (index < 0 || index >= _months.Count)
         {
             GraphTooltip.IsVisible = false;
+            _hoveredIndex = -1;
             return;
         }
         string month = _months[index].ToString("MMMM yyyy");
@@ -39,11 +41,23 @@ public partial class YearView : ContentPage
         GraphTooltip.IsVisible = true;
         GraphTooltip.TranslationX = pos.Value.X + 10;
         GraphTooltip.TranslationY = pos.Value.Y + 10;
+        _hoveredIndex = index;
     }
 
     void OnGraphPointerExited(object? sender, PointerEventArgs e)
     {
         GraphTooltip.IsVisible = false;
+        _hoveredIndex = -1;
+    }
+
+    async void OnGraphTapped(object? sender, TappedEventArgs e)
+    {
+        if (_hoveredIndex >= 0 && _hoveredIndex < _months.Count)
+        {
+            var dt = _months[_hoveredIndex];
+            App.NavigateToMonth = (dt.Year, dt.Month);
+            await Shell.Current.GoToAsync(nameof(MonthView));
+        }
     }
 
     public YearView()
@@ -53,6 +67,9 @@ public partial class YearView : ContentPage
         pointer.PointerMoved += OnGraphPointerMoved;
         pointer.PointerExited += OnGraphPointerExited;
         YearGraph.GestureRecognizers.Add(pointer);
+        var tap = new TapGestureRecognizer();
+        tap.Tapped += OnGraphTapped;
+        YearGraph.GestureRecognizers.Add(tap);
     }
 
     protected override async void OnAppearing()
