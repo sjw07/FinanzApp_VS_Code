@@ -9,7 +9,7 @@
                HorizontalOptions="Center"
                Margin="0,10" />
         <Frame BackgroundColor="LightGray" Padding="5" Margin="5">
-            <Label x:Name="InfoLabel" HorizontalTextAlignment="Center" />
+            <Label x:Name="InfoLabel" HorizontalTextAlignment="Center" TextColor="Black" />
         </Frame>
         <Grid ColumnDefinitions="*,Auto" Padding="20">
             <Grid x:Name="LeftGrid" VerticalOptions="Center">
