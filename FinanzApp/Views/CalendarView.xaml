@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinanzApp.CalendarView">
+    <Grid>
+        <Image Source="backgroundimage.png" Aspect="AspectFill" Opacity="0.5" />
+        <VerticalStackLayout>
+            <Label x:Name="TitleLabel" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" Margin="0,10" />
+            <ScrollView>
+                <Grid x:Name="CalendarGrid" ColumnSpacing="2" RowSpacing="2" />
+            </ScrollView>
+            <Button Text="Zurück" Clicked="OnBackClicked" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" WidthRequest="200"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

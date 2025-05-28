@@ -46,6 +46,13 @@ public partial class MonthView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        if (App.NavigateToMonth is (int year, int month))
+        {
+            _currentYear = year;
+            _currentMonth = month;
+            App.NavigateToMonth = null;
+            UpdateTitle();
+        }
         _allEntries.Clear();
         _allEntries.AddRange(await _service.GetEntriesAsync(App.LoggedInUser));
         FilterEntries();
@@ -108,6 +115,7 @@ public partial class MonthView : ContentPage
         monthEntries.Insert(0, carry);
 
         var monthBalance = monthEntries.Sum(e => e.Betrag);
+        App.MonthlyBalances[(_currentYear, _currentMonth)] = monthBalance;
         BalanceLabel.Text = $"Bilanz: {monthBalance:C}";
 
         ApplySort(monthEntries);
@@ -226,6 +234,32 @@ public partial class MonthView : ContentPage
     async void OnHomeClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(HomeView));
+    }
+
+    async void OnCalendarClicked(object? sender, EventArgs e)
+    {
+        App.NavigateToCalendar = (_currentYear, _currentMonth);
+        await Shell.Current.GoToAsync(nameof(CalendarView));
+    }
+
+    void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        var text = e.NewTextValue?.Trim();
+        if (string.IsNullOrEmpty(text))
+        {
+            SearchTooltip.IsVisible = false;
+            return;
+        }
+
+        var results = _allEntries
+            .Where(entry => entry.Datum.ToString("dd.MM.yyyy").Contains(text, StringComparison.OrdinalIgnoreCase)
+                            || entry.Name.Contains(text, StringComparison.OrdinalIgnoreCase))
+            .OrderBy(entry => entry.Datum)
+            .Take(10)
+            .Select(entry => $"{entry.Datum:dd.MM.yyyy} {entry.Betrag:C} {entry.Name}");
+
+        SearchTooltip.Text = string.Join("\n", results);
+        SearchTooltip.IsVisible = results.Any();
     }
 
     async void OnLogoutClicked(object? sender, EventArgs e)
