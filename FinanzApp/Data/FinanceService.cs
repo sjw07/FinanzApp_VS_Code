@@ -2,6 +2,7 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -36,6 +37,9 @@ namespace FinanzApp.Data
     {
         const string DbFileName = "FinanzApp.db";
         readonly string _dbPath = Path.Combine(AppContext.BaseDirectory, "Data", DbFileName);
+
+        public static event EventHandler? EntriesChanged;
+        static void RaiseEntriesChanged() => EntriesChanged?.Invoke(null, EventArgs.Empty);
 
         public FinanceService()
         {
@@ -107,6 +111,7 @@ namespace FinanzApp.Data
             insert.Parameters.AddWithValue("@n", name);
             insert.Parameters.AddWithValue("@uid", id);
             await insert.ExecuteNonQueryAsync();
+            RaiseEntriesChanged();
             return true;
         }
 
@@ -148,7 +153,34 @@ namespace FinanzApp.Data
             update.Parameters.AddWithValue("@on", oldName);
 
             var affected = await update.ExecuteNonQueryAsync();
+            if (affected > 0)
+                RaiseEntriesChanged();
             return affected > 0;
+        }
+
+        public Dictionary<(int Year, int Month), decimal> CalculateMonthlyBalances(List<FinanceEntry> entries)
+        {
+            var result = new Dictionary<(int, int), decimal>();
+            var sorted = entries.OrderBy(e => e.Datum).ToList();
+
+            int startYear = 2020;
+            int endYear = 2030;
+            int index = 0;
+            decimal running = 0m;
+
+            for (int year = startYear; year <= endYear; year++)
+            {
+                for (int month = 1; month <= 12; month++)
+                {
+                    while (index < sorted.Count && sorted[index].Datum.Year == year && sorted[index].Datum.Month == month)
+                    {
+                        running += sorted[index].Betrag;
+                        index++;
+                    }
+                    result[(year, month)] = running;
+                }
+            }
+            return result;
         }
     }
 }

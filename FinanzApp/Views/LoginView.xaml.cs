@@ -1,3 +1,4 @@
+using FinanzApp.Data;
 using System.Collections.Generic;
 
 namespace FinanzApp;
@@ -11,6 +12,7 @@ public partial class LoginView : ContentPage
         ["Stefan3"] = "1234",
         ["Stefan4"] = "1234"
     };
+    readonly FinanceService _service = new();
 
     public LoginView()
     {
@@ -20,7 +22,7 @@ public partial class LoginView : ContentPage
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
-        double fieldWidth = width / 2;
+        double fieldWidth = width / 3;
         usernameEntry.WidthRequest = fieldWidth;
         passwordEntry.WidthRequest = fieldWidth;
     }
@@ -35,6 +37,11 @@ public partial class LoginView : ContentPage
             password == validPass)
         {
             App.LoggedInUser = username;
+            var entries = await _service.GetEntriesAsync(username);
+            var balances = _service.CalculateMonthlyBalances(entries);
+            App.MonthlyBalances.Clear();
+            foreach (var kv in balances)
+                App.MonthlyBalances[kv.Key] = kv.Value;
             await Shell.Current.GoToAsync(nameof(HomeView));
         }
         else
