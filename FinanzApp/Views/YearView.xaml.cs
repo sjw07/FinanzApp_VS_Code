@@ -3,6 +3,7 @@ using FinanzApp.Graphs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FinanzApp;
 
@@ -22,23 +23,26 @@ public partial class YearView : ContentPage
     {
         base.OnAppearing();
         FinanceService.EntriesChanged += OnEntriesChanged;
-        _entries = await _service.GetEntriesAsync(App.LoggedInUser);
-        if (App.MonthlyBalances.Count == 0)
-        {
-            var dict = _service.CalculateMonthlyBalances(_entries);
-            foreach (var kv in dict)
-                App.MonthlyBalances[kv.Key] = kv.Value;
-        }
-        BuildGrid();
-        _graph.Entries = _entries;
-        YearGraph.Drawable = _graph;
-        YearGraph.Invalidate();
+        await RefreshAsync();
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
         FinanceService.EntriesChanged -= OnEntriesChanged;
+    }
+
+    async Task RefreshAsync()
+    {
+        _entries = await _service.GetEntriesAsync(App.LoggedInUser);
+        var dict = _service.CalculateMonthlyBalances(_entries);
+        App.MonthlyBalances.Clear();
+        foreach (var kv in dict)
+            App.MonthlyBalances[kv.Key] = kv.Value;
+        BuildGrid();
+        _graph.Entries = _entries;
+        YearGraph.Drawable = _graph;
+        YearGraph.Invalidate();
     }
 
     void BuildGrid()
@@ -140,15 +144,7 @@ public partial class YearView : ContentPage
 
     async void OnEntriesChanged(object? sender, EventArgs e)
     {
-        _entries = await _service.GetEntriesAsync(App.LoggedInUser);
-        var dict = _service.CalculateMonthlyBalances(_entries);
-        App.MonthlyBalances.Clear();
-        foreach (var kv in dict)
-            App.MonthlyBalances[kv.Key] = kv.Value;
-        BuildGrid();
-        _graph.Entries = _entries;
-        YearGraph.Drawable = _graph;
-        YearGraph.Invalidate();
+        await RefreshAsync();
     }
 
 
