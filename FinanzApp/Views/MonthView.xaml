@@ -110,6 +110,8 @@
                 <Button Text="Eintrag &#228;ndern" Clicked="OnEditEntryClicked"
                         BackgroundColor="Orange" TextColor="White" FontAttributes="Bold"
                         WidthRequest="200" />
+                <Button Text="Kalender" Clicked="OnCalendarClicked" BackgroundColor="DarkGray"
+                        TextColor="White" FontAttributes="Bold" Margin="0,75,0,0" WidthRequest="200" />
                 <Button Text="Home" Clicked="OnHomeClicked" TextColor="White" FontAttributes="Bold"
                         Margin="0,75,0,0" WidthRequest="200" />
                 <Button Text="Abmelden" Clicked="OnLogoutClicked" BackgroundColor="Red"
