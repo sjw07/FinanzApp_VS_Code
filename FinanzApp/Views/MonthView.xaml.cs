@@ -236,6 +236,12 @@ public partial class MonthView : ContentPage
         await Shell.Current.GoToAsync(nameof(HomeView));
     }
 
+    async void OnCalendarClicked(object? sender, EventArgs e)
+    {
+        App.NavigateToCalendar = (_currentYear, _currentMonth);
+        await Shell.Current.GoToAsync(nameof(CalendarView));
+    }
+
     async void OnLogoutClicked(object? sender, EventArgs e)
     {
         App.LoggedInUser = null;
