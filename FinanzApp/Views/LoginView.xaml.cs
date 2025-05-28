@@ -22,7 +22,8 @@ public partial class LoginView : ContentPage
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
-        double fieldWidth = width / 3;
+        // Set the width of the input fields to half of the previous value
+        double fieldWidth = width / 6;
         usernameEntry.WidthRequest = fieldWidth;
         passwordEntry.WidthRequest = fieldWidth;
     }
