@@ -24,8 +24,10 @@ public partial class YearView : ContentPage
         if (_months.Count == 0)
             return;
         var pos = e.GetPosition(YearGraph);
+        if (pos is null)
+            return;
         double stepX = YearGraph.Width / (_months.Count - 1);
-        int index = (int)Math.Round(pos.X / stepX);
+        int index = (int)Math.Round(pos.Value.X / stepX);
         if (index < 0 || index >= _months.Count)
         {
             GraphTooltip.IsVisible = false;
@@ -35,8 +37,8 @@ public partial class YearView : ContentPage
         string text = $"{month}\nEingänge: {_incomes[index]:F1}\nAusgänge: {_expenses[index]:F1}\nBilanz: {_balances[index]:F1}";
         GraphTooltip.Text = text;
         GraphTooltip.IsVisible = true;
-        GraphTooltip.TranslationX = pos.X + 10;
-        GraphTooltip.TranslationY = pos.Y + 10;
+        GraphTooltip.TranslationX = pos.Value.X + 10;
+        GraphTooltip.TranslationY = pos.Value.Y + 10;
     }
 
     void OnGraphPointerExited(object? sender, PointerEventArgs e)
