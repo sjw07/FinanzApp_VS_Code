@@ -39,8 +39,10 @@ public partial class YearView : ContentPage
         string text = $"{month}\nEingänge: {_incomes[index]:F1}\nAusgänge: {_expenses[index]:F1}\nBilanz: {_balances[index]:F1}";
         GraphTooltip.Text = text;
         GraphTooltip.IsVisible = true;
-        GraphTooltip.TranslationX = pos.Value.X + 10;
-        GraphTooltip.TranslationY = pos.Value.Y + 10;
+        double offsetX = YearGraph.Margin.Left;
+        double offsetY = YearGraph.Margin.Top;
+        GraphTooltip.TranslationX = offsetX + pos.Value.X + 10;
+        GraphTooltip.TranslationY = offsetY + pos.Value.Y + 10;
         _hoveredIndex = index;
     }
 
