@@ -158,6 +158,36 @@ namespace FinanzApp.Data
             return affected > 0;
         }
 
+        public async Task<bool> DeleteEntryAsync(string? user,
+                                                 DateTime datum, decimal betrag, string name)
+        {
+            if (string.IsNullOrEmpty(user))
+                return false;
+
+            var table = user switch
+            {
+                "Stefan" => "Entries",
+                "Stefan2" => "Entries2",
+                "Stefan3" => "Entries3",
+                "Stefan4" => "Entries4",
+                _ => "Entries"
+            };
+
+            using var connection = new SqliteConnection($"Data Source={_dbPath}");
+            await connection.OpenAsync();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = $"DELETE FROM {table} WHERE Datum=@d AND Betrag=@b AND Name=@n";
+            cmd.Parameters.AddWithValue("@d", datum.ToString("yyyy-MM-dd"));
+            cmd.Parameters.AddWithValue("@b", betrag);
+            cmd.Parameters.AddWithValue("@n", name);
+
+            var affected = await cmd.ExecuteNonQueryAsync();
+            if (affected > 0)
+                RaiseEntriesChanged();
+            return affected > 0;
+        }
+
         public Dictionary<(int Year, int Month), decimal> CalculateMonthlyBalances(List<FinanceEntry> entries)
         {
             var result = new Dictionary<(int, int), decimal>();
