@@ -12,7 +12,10 @@
                         <Grid x:Name="YearGrid" Padding="3" RowSpacing="2" ColumnSpacing="5" />
                     </ScrollView>
                 </Border>
-                <GraphicsView x:Name="YearGraph" HeightRequest="200" Grid.Row="1" Grid.Column="0" />
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <GraphicsView x:Name="YearGraph" HeightRequest="200" Margin="76,0,0,0" />
+                    <Label x:Name="GraphTooltip" IsVisible="False" BackgroundColor="#CC000000" TextColor="White" Padding="5" FontSize="12" />
+                </Grid>
                 <VerticalStackLayout Grid.Column="1" Grid.RowSpan="2" Spacing="10" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
                     <Button Text="Home" Clicked="OnHomeClicked" TextColor="White" FontAttributes="Bold" WidthRequest="200" VerticalOptions="Center" />
                     <Button Text="Abmelden" Clicked="OnLogoutClicked" BackgroundColor="Red" TextColor="White" FontAttributes="Bold" WidthRequest="200" VerticalOptions="Center" />

@@ -10,6 +10,11 @@ public class YearGraphDrawable : IDrawable
 {
     public IList<FinanceEntry> Entries { get; set; } = new List<FinanceEntry>();
 
+    public IReadOnlyList<DateTime> Months { get; private set; } = Array.Empty<DateTime>();
+    public IReadOnlyList<decimal> Incomes { get; private set; } = Array.Empty<decimal>();
+    public IReadOnlyList<decimal> Expenses { get; private set; } = Array.Empty<decimal>();
+    public IReadOnlyList<decimal> Balances { get; private set; } = Array.Empty<decimal>();
+
     public void Draw(ICanvas canvas, RectF dirtyRect)
     {
         if (Entries.Count == 0)
@@ -45,12 +50,20 @@ public class YearGraphDrawable : IDrawable
                 maxBalance = running;
         }
 
+        Months = months;
+        Incomes = incomes;
+        Expenses = expenses;
+        Balances = balances;
+
         if (maxBalance == 0)
             maxBalance = 1;
 
         float width = dirtyRect.Width;
         float height = dirtyRect.Height;
         float stepX = width / (months.Count - 1);
+
+        canvas.StrokeColor = Colors.White;
+        canvas.DrawLine(0, 0, 0, height);
 
         float prevIncY = height - (float)((double)incomes[0] / (double)maxBalance * height);
         float prevExpY = height - (float)((double)expenses[0] / (double)maxBalance * height);
