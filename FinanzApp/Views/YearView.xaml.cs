@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 
 namespace FinanzApp;
 
@@ -13,10 +14,43 @@ public partial class YearView : ContentPage
     List<FinanceEntry> _entries = new();
     int? _selectedYear;
     readonly YearGraphDrawable _graph = new();
+    List<DateTime> _months = new();
+    decimal[] _incomes = Array.Empty<decimal>();
+    decimal[] _expenses = Array.Empty<decimal>();
+    decimal[] _balances = Array.Empty<decimal>();
+
+    void OnGraphPointerMoved(object? sender, PointerEventArgs e)
+    {
+        if (_months.Count == 0)
+            return;
+        var pos = e.GetPosition(YearGraph);
+        double stepX = YearGraph.Width / (_months.Count - 1);
+        int index = (int)Math.Round(pos.X / stepX);
+        if (index < 0 || index >= _months.Count)
+        {
+            GraphTooltip.IsVisible = false;
+            return;
+        }
+        string month = _months[index].ToString("MMMM yyyy");
+        string text = $"{month}\nEingänge: {_incomes[index]:F1}\nAusgänge: {_expenses[index]:F1}\nBilanz: {_balances[index]:F1}";
+        GraphTooltip.Text = text;
+        GraphTooltip.IsVisible = true;
+        GraphTooltip.TranslationX = pos.X + 10;
+        GraphTooltip.TranslationY = pos.Y + 10;
+    }
+
+    void OnGraphPointerExited(object? sender, PointerEventArgs e)
+    {
+        GraphTooltip.IsVisible = false;
+    }
 
     public YearView()
     {
         InitializeComponent();
+        var pointer = new PointerGestureRecognizer();
+        pointer.PointerMoved += OnGraphPointerMoved;
+        pointer.PointerExited += OnGraphPointerExited;
+        YearGraph.GestureRecognizers.Add(pointer);
     }
 
     protected override async void OnAppearing()
@@ -41,6 +75,7 @@ public partial class YearView : ContentPage
             App.MonthlyBalances[kv.Key] = kv.Value;
         BuildGrid();
         _graph.Entries = _entries;
+        PrepareGraphData();
         YearGraph.Drawable = _graph;
         YearGraph.Invalidate();
     }
@@ -114,7 +149,10 @@ public partial class YearView : ContentPage
             tap.Tapped += (_, __) => { _selectedYear = year; BuildGrid(); };
             label.GestureRecognizers.Add(tap);
             if (_selectedYear == year)
+            {
                 label.BackgroundColor = Colors.LightBlue;
+                label.TextColor = Colors.Orange;
+            }
         }
         YearGrid.Children.Add(label);
         Grid.SetRow(label, row);
@@ -133,13 +171,44 @@ public partial class YearView : ContentPage
             HorizontalTextAlignment = TextAlignment.End
         };
         if (_selectedYear == year)
+        {
             label.BackgroundColor = Colors.LightBlue;
+            label.TextColor = Colors.Orange;
+        }
         var tap = new TapGestureRecognizer();
         tap.Tapped += (_, __) => { _selectedYear = year; BuildGrid(); };
         label.GestureRecognizers.Add(tap);
         YearGrid.Children.Add(label);
         Grid.SetRow(label, row);
         Grid.SetColumn(label, column);
+    }
+
+    void PrepareGraphData()
+    {
+        _months.Clear();
+        const int startYear = 2020;
+        const int endYear = 2030;
+        for (int year = startYear; year <= endYear; year++)
+            for (int month = 1; month <= 12; month++)
+                _months.Add(new DateTime(year, month, 1));
+
+        _incomes = new decimal[_months.Count];
+        _expenses = new decimal[_months.Count];
+        _balances = new decimal[_months.Count];
+
+        decimal running = 0;
+        for (int i = 0; i < _months.Count; i++)
+        {
+            var dt = _months[i];
+            var inc = _entries.Where(e => e.Datum.Year == dt.Year && e.Datum.Month == dt.Month && e.Betrag > 0)
+                               .Sum(e => e.Betrag);
+            var exp = _entries.Where(e => e.Datum.Year == dt.Year && e.Datum.Month == dt.Month && e.Betrag < 0)
+                               .Sum(e => e.Betrag);
+            running += inc + exp;
+            _incomes[i] = inc;
+            _expenses[i] = -exp;
+            _balances[i] = running;
+        }
     }
 
     async void OnEntriesChanged(object? sender, EventArgs e)
