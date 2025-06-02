@@ -73,7 +73,9 @@ public class YearGraphDrawable : IDrawable
             canvas.DrawLine(0, y, width, y);
             canvas.FontColor = Colors.White;
             var labelValue = (maxBalance / 15m * i) / 1000m;
-            canvas.DrawString($"{labelValue:F0}T", -5, y - 8, HorizontalAlignment.Left);
+            // shift labels 1 cm to the right of the Y axis
+            float offsetX = 96f / 2.54f; // 1 cm in device independent units
+            canvas.DrawString($"{labelValue:F0}T", offsetX, y - 8, HorizontalAlignment.Left);
         }
 
         // X axis markers
