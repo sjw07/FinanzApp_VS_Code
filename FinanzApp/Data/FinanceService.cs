@@ -38,7 +38,10 @@ namespace FinanzApp.Data
     public class FinanceService
     {
         const string DbFileName = "FinanzApp.db";
-        readonly string _dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), DbFileName);
+        // Use the database located in the project's Data folder
+        readonly string _dbPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                              "..", "..", "..", "..",
+                                                              "Data", DbFileName));
 
         public static event EventHandler? EntriesChanged;
         static void RaiseEntriesChanged() => EntriesChanged?.Invoke(null, EventArgs.Empty);
