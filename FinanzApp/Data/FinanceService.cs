@@ -103,9 +103,6 @@ namespace FinanzApp.Data
             var getId = connection.CreateCommand();
             getId.CommandText = "SELECT last_insert_rowid();";
             long id = (long)(await getId.ExecuteScalarAsync())!;
-            long id = connection.LastInsertRowId;
-
-
             string table = GetTableName((int)id);
             var create = connection.CreateCommand();
             create.CommandText = $"CREATE TABLE IF NOT EXISTS {table} (Id INTEGER PRIMARY KEY AUTOINCREMENT, Datum DATE NOT NULL, Betrag REAL NOT NULL, Name TEXT NOT NULL, UserId INTEGER NOT NULL, FOREIGN KEY (UserId) REFERENCES Users(Id))";
