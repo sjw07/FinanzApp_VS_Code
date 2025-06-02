@@ -70,7 +70,6 @@
         <ItemGroup>
                 <!-- Ensure the database file is copied to the output directory so it can be accessed at runtime -->
                 <None Update="Data/FinanzApp.db" CopyToOutputDirectory="PreserveNewest" />
-                <None Include="Data/unique_entry_indices.sql" />
         </ItemGroup>
 
 </Project>
