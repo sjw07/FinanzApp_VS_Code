@@ -69,18 +69,18 @@ public class YearGraphDrawable : IDrawable
         for (int i = 0; i <= 15; i++)
         {
             float y = height - i * height / 15f;
-            canvas.StrokeColor = Colors.Gray;
+            canvas.StrokeColor = new Color(Colors.Gray.Red, Colors.Gray.Green, Colors.Gray.Blue, 0.2f);
             canvas.DrawLine(0, y, width, y);
             canvas.FontColor = Colors.White;
-            var label = (maxBalance / 15m * i).ToString("F0");
-            canvas.DrawString(label, -5, y - 8, HorizontalAlignment.Left);
+            var labelValue = (maxBalance / 15m * i) / 1000m;
+            canvas.DrawString($"{labelValue:F0}T", -5, y - 8, HorizontalAlignment.Left);
         }
 
         // X axis markers
         for (int i = 0; i < months.Count; i++)
         {
             float x = i * stepX;
-            canvas.StrokeColor = Colors.Gray;
+            canvas.StrokeColor = new Color(Colors.Gray.Red, Colors.Gray.Green, Colors.Gray.Blue, 0.2f);
             canvas.DrawLine(x, 0, x, height);
         }
 
@@ -116,7 +116,8 @@ public class YearGraphDrawable : IDrawable
         {
             int index = (year - startYear) * 12;
             float x = index * stepX;
-            canvas.DrawString(year.ToString(), x, height + 2, HorizontalAlignment.Center);
+            float offset = 0.5f * 96f / 2.54f; // 0.5 cm in device independent units
+            canvas.DrawString(year.ToString(), x, height - offset, HorizontalAlignment.Center);
         }
     }
 }

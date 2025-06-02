@@ -12,8 +12,8 @@
                         <Grid x:Name="YearGrid" Padding="3" RowSpacing="2" ColumnSpacing="5" />
                     </ScrollView>
                 </Border>
-                <Grid Grid.Row="1" Grid.Column="0">
-                    <GraphicsView x:Name="YearGraph" HeightRequest="200" WidthRequest="800" Margin="75,113,0,0" />
+                <Grid Grid.Row="1" Grid.Column="0" Margin="75,0,0,0">
+                    <GraphicsView x:Name="YearGraph" HeightRequest="400" WidthRequest="800" Margin="0,113,0,0" />
                     <Label x:Name="GraphTooltip" IsVisible="False" BackgroundColor="#CC000000" TextColor="White" Padding="5" FontSize="12" WidthRequest="113" HeightRequest="113" />
                 </Grid>
                 <VerticalStackLayout Grid.Column="1" Grid.RowSpan="2" Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
