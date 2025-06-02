@@ -15,7 +15,7 @@
                    HorizontalOptions="Center" />
             <Button Text="&#x276F;" Grid.Column="2" Clicked="OnNextMonthClicked" FontSize="16" />
         </Grid>
-        <SearchBar x:Name="EntrySearchBar" Placeholder="Suchen" TextChanged="OnSearchTextChanged" />
+        <SearchBar x:Name="EntrySearchBar" Placeholder="Suchen" TextChanged="OnSearchTextChanged" Margin="40,0,0,0" WidthRequest="800" />
         <Label x:Name="SearchTooltip" IsVisible="False" BackgroundColor="#CC000000" TextColor="White"
                Padding="5" FontSize="12" />
         <Grid ColumnDefinitions="3*,1*" ColumnSpacing="10" VerticalOptions="Fill">
@@ -71,7 +71,7 @@
                                         </Label.Triggers>
                                     </Label>
                                     <Label x:Name="AmountLabel"
-                                           Text="{Binding Betrag}"
+                                           Text="{Binding Betrag, StringFormat='{0:C}'}"
                                            Grid.Column="1"
                                            FontSize="12"
                                            FontAttributes="Bold"
