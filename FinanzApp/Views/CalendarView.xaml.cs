@@ -30,9 +30,44 @@ public partial class CalendarView : ContentPage
             _year = DateTime.Now.Year;
             _month = DateTime.Now.Month;
         }
+        UpdateTitle();
+        _entries = await _service.GetEntriesAsync(App.LoggedInUser);
+        BuildCalendar();
+    }
+
+    void UpdateTitle()
+    {
         var dt = new DateTime(_year, _month, 1);
         TitleLabel.Text = dt.ToString("MMMM yyyy");
-        _entries = await _service.GetEntriesAsync(App.LoggedInUser);
+    }
+
+    void OnPrevMonthClicked(object? sender, EventArgs e)
+    {
+        if (_month == 1)
+        {
+            _month = 12;
+            _year--;
+        }
+        else
+        {
+            _month--;
+        }
+        UpdateTitle();
+        BuildCalendar();
+    }
+
+    void OnNextMonthClicked(object? sender, EventArgs e)
+    {
+        if (_month == 12)
+        {
+            _month = 1;
+            _year++;
+        }
+        else
+        {
+            _month++;
+        }
+        UpdateTitle();
         BuildCalendar();
     }
 
@@ -95,12 +130,15 @@ public partial class CalendarView : ContentPage
                 });
             }
 
+            var scroll = new ScrollView { Content = stack };
+
             var border = new Border
             {
                 Stroke = Colors.Black,
                 StrokeThickness = 1,
                 BackgroundColor = Color.FromArgb("#0DD3D3D3"),
-                Content = stack
+                Content = scroll,
+                HeightRequest = 90
             };
 
             CalendarGrid.Children.Add(border);

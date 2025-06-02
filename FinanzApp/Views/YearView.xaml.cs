@@ -41,8 +41,8 @@ public partial class YearView : ContentPage
         GraphTooltip.IsVisible = true;
         double offsetX = YearGraph.Margin.Left;
         double offsetY = YearGraph.Margin.Top;
-        GraphTooltip.TranslationX = offsetX + pos.Value.X + 10;
-        GraphTooltip.TranslationY = offsetY + pos.Value.Y + 10;
+        GraphTooltip.TranslationX = offsetX + pos.Value.X - 300;
+        GraphTooltip.TranslationY = offsetY + pos.Value.Y - 113;
         _hoveredIndex = index;
     }
 
