@@ -100,7 +100,11 @@ namespace FinanzApp.Data
             insert.Parameters.AddWithValue("@u", username);
             insert.Parameters.AddWithValue("@p", hash);
             await insert.ExecuteNonQueryAsync();
+            var getId = connection.CreateCommand();
+            getId.CommandText = "SELECT last_insert_rowid();";
+            long id = (long)(await getId.ExecuteScalarAsync())!;
             long id = connection.LastInsertRowId;
+
 
             string table = GetTableName((int)id);
             var create = connection.CreateCommand();
