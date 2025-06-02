@@ -5,7 +5,11 @@
     <Grid>
         <Image Source="backgroundimage.png" Aspect="AspectFill" Opacity="0.5" />
         <VerticalStackLayout>
-            <Label x:Name="TitleLabel" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" Margin="0,10" />
+            <Grid ColumnDefinitions="50,*,50" ColumnSpacing="0" Margin="0,10" HorizontalOptions="Center">
+                <Button Text="&#x276E;" Clicked="OnPrevMonthClicked" FontSize="16" />
+                <Label x:Name="TitleLabel" Grid.Column="1" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" />
+                <Button Text="&#x276F;" Grid.Column="2" Clicked="OnNextMonthClicked" FontSize="16" />
+            </Grid>
             <ScrollView>
                 <Grid x:Name="CalendarGrid" ColumnSpacing="2" RowSpacing="2" />
             </ScrollView>

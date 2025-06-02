@@ -65,6 +65,25 @@ public class YearGraphDrawable : IDrawable
         canvas.StrokeColor = Colors.White;
         canvas.DrawLine(0, 0, 0, height);
 
+        // Y axis markers
+        for (int i = 0; i <= 15; i++)
+        {
+            float y = height - i * height / 15f;
+            canvas.StrokeColor = Colors.Gray;
+            canvas.DrawLine(0, y, width, y);
+            canvas.FontColor = Colors.White;
+            var label = (maxBalance / 15m * i).ToString("F0");
+            canvas.DrawString(label, -5, y - 8, HorizontalAlignment.Left);
+        }
+
+        // X axis markers
+        for (int i = 0; i < months.Count; i++)
+        {
+            float x = i * stepX;
+            canvas.StrokeColor = Colors.Gray;
+            canvas.DrawLine(x, 0, x, height);
+        }
+
         float prevIncY = height - (float)((double)incomes[0] / (double)maxBalance * height);
         float prevExpY = height - (float)((double)expenses[0] / (double)maxBalance * height);
         float prevBalY = height - (float)((double)balances[0] / (double)maxBalance * height);

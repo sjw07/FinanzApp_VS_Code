@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace FinanzApp.Data
 {
@@ -45,20 +47,82 @@ namespace FinanzApp.Data
         {
         }
 
+        string GetTableName(int userId) => userId == 1 ? "Entries" : $"Entries{userId}";
+
+        public static string HashPassword(string password)
+        {
+            using var sha = System.Security.Cryptography.SHA256.Create();
+            var bytes = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            return string.Concat(bytes.Select(b => b.ToString("x2")));
+        }
+
+        async Task<int?> GetUserIdAsync(string username)
+        {
+            using var connection = new SqliteConnection($"Data Source={_dbPath}");
+            await connection.OpenAsync();
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT Id FROM Users WHERE Username=@u";
+            cmd.Parameters.AddWithValue("@u", username);
+            var val = await cmd.ExecuteScalarAsync();
+            if (val == null || val == DBNull.Value)
+                return null;
+            return Convert.ToInt32(val);
+        }
+
+        public async Task<(int Id, string PasswordHash)?> GetUserAsync(string username)
+        {
+            using var connection = new SqliteConnection($"Data Source={_dbPath}");
+            await connection.OpenAsync();
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT Id, PasswordHash FROM Users WHERE Username=@u";
+            cmd.Parameters.AddWithValue("@u", username);
+            using var reader = await cmd.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
+                return (reader.GetInt32(0), reader.GetString(1));
+            return null;
+        }
+
+        public async Task<bool> RegisterUserAsync(string username, string password)
+        {
+            using var connection = new SqliteConnection($"Data Source={_dbPath}");
+            await connection.OpenAsync();
+
+            var check = connection.CreateCommand();
+            check.CommandText = "SELECT COUNT(*) FROM Users WHERE Username=@u";
+            check.Parameters.AddWithValue("@u", username);
+            var count = Convert.ToInt32(await check.ExecuteScalarAsync());
+            if (count > 0)
+                return false;
+
+            var hash = HashPassword(password);
+            var insert = connection.CreateCommand();
+            insert.CommandText = "INSERT INTO Users (Username, PasswordHash) VALUES (@u,@p)";
+            insert.Parameters.AddWithValue("@u", username);
+            insert.Parameters.AddWithValue("@p", hash);
+            await insert.ExecuteNonQueryAsync();
+            long id = connection.LastInsertRowId;
+
+            string table = GetTableName((int)id);
+            var create = connection.CreateCommand();
+            create.CommandText = $"CREATE TABLE IF NOT EXISTS {table} (Id INTEGER PRIMARY KEY AUTOINCREMENT, Datum DATE NOT NULL, Betrag REAL NOT NULL, Name TEXT NOT NULL, UserId INTEGER NOT NULL, FOREIGN KEY (UserId) REFERENCES Users(Id))";
+            await create.ExecuteNonQueryAsync();
+            var unique = connection.CreateCommand();
+            unique.CommandText = $"CREATE UNIQUE INDEX IF NOT EXISTS idx_entries{(int)id}_unique ON {table}(Datum, Betrag, Name, UserId)";
+            await unique.ExecuteNonQueryAsync();
+            return true;
+        }
+
         public async Task<List<FinanceEntry>> GetEntriesAsync(string? user)
         {
             var result = new List<FinanceEntry>();
-            if (!File.Exists(_dbPath))
+            if (!File.Exists(_dbPath) || string.IsNullOrEmpty(user))
                 return result;
 
-            var table = user switch
-            {
-                "Stefan" => "Entries",
-                "Stefan2" => "Entries2",
-                "Stefan3" => "Entries3",
-                "Stefan4" => "Entries4",
-                _ => "Entries"
-            };
+            var id = await GetUserIdAsync(user);
+            if (id is null)
+                return result;
+
+            var table = GetTableName(id.Value);
 
             using var connection = new SqliteConnection($"Data Source={_dbPath}");
             await connection.OpenAsync();
@@ -83,14 +147,11 @@ namespace FinanzApp.Data
             if (string.IsNullOrEmpty(user))
                 return false;
 
-            var (table, id) = user switch
-            {
-                "Stefan" => ("Entries", 1),
-                "Stefan2" => ("Entries2", 2),
-                "Stefan3" => ("Entries3", 3),
-                "Stefan4" => ("Entries4", 4),
-                _ => ("Entries", 1)
-            };
+            var id = await GetUserIdAsync(user);
+            if (id is null)
+                return false;
+
+            var table = GetTableName(id.Value);
 
             using var connection = new SqliteConnection($"Data Source={_dbPath}");
             await connection.OpenAsync();
@@ -122,14 +183,11 @@ namespace FinanzApp.Data
             if (string.IsNullOrEmpty(user))
                 return false;
 
-            var table = user switch
-            {
-                "Stefan" => "Entries",
-                "Stefan2" => "Entries2",
-                "Stefan3" => "Entries3",
-                "Stefan4" => "Entries4",
-                _ => "Entries"
-            };
+            var id = await GetUserIdAsync(user);
+            if (id is null)
+                return false;
+
+            var table = GetTableName(id.Value);
 
             using var connection = new SqliteConnection($"Data Source={_dbPath}");
             await connection.OpenAsync();
@@ -164,14 +222,11 @@ namespace FinanzApp.Data
             if (string.IsNullOrEmpty(user))
                 return false;
 
-            var table = user switch
-            {
-                "Stefan" => "Entries",
-                "Stefan2" => "Entries2",
-                "Stefan3" => "Entries3",
-                "Stefan4" => "Entries4",
-                _ => "Entries"
-            };
+            var id = await GetUserIdAsync(user);
+            if (id is null)
+                return false;
+
+            var table = GetTableName(id.Value);
 
             using var connection = new SqliteConnection($"Data Source={_dbPath}");
             await connection.OpenAsync();
