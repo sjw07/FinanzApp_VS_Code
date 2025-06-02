@@ -8,6 +8,13 @@ public partial class HomeView : ContentPage
         SizeChanged += OnPageSizeChanged;
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (!string.IsNullOrWhiteSpace(App.LoggedInUser))
+            WelcomeLabel.Text = $"Willkommen {App.LoggedInUser}!";
+    }
+
     private void OnPageSizeChanged(object? sender, EventArgs e)
     {
         double buttonWidth = Width / 4;

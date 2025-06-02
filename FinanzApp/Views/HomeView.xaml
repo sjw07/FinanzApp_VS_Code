@@ -5,6 +5,13 @@
     <Grid>
         <Image Source="backgroundimage.png" Aspect="AspectFill" Opacity="0.5" />
         <VerticalStackLayout Padding="20" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+            <Label x:Name="WelcomeLabel"
+                   Text="Willkommen!"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   FontSize="37"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,0,0,75" />
             <Button x:Name="MonthButton" Text="Monatsübersicht" Clicked="OnMonthClicked" TextColor="White" FontAttributes="Bold"/>
             <Button x:Name="YearButton" Text="Jahresübersicht" Clicked="OnYearClicked" TextColor="White" FontAttributes="Bold"/>
             <Button x:Name="LogoutButton" Text="Abmelden" Clicked="OnLogoutClicked" TextColor="White" FontAttributes="Bold" BackgroundColor="Red"/>
